@@ -10,5 +10,6 @@ export const ownersService = {
   },
   getOwnerById: async (id: number) => {
     return await api.get(`/owners/${id}`);
+    // return await api.get(`/owners/120`);
   },
 };

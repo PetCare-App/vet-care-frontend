@@ -13,18 +13,19 @@ import {
 import SearchIcon from '@mui/icons-material/Search';
 import { Key, useEffect, useState } from 'react';
 import { useVetCareContext } from '../../context';
+import { useNavigate } from 'react-router-dom';
+import SnackbarComponent from '../../components/Snackbar';
 
 export const OwnerSearch = () => {
-  const { owners, getOwnersList, getOwnerById, selectedOwner } =
+  const { owners, getOwnersList, getOwnerById, snackbarOpen } =
     useVetCareContext();
+  const navigate = useNavigate();
 
-  const [ownerName, setOwnerName] = useState('');
+  const [ownerId, setOwnerId] = useState('');
 
   useEffect(() => {
     getOwnersList();
   }, []);
-
-  console.log('selectedOwner', selectedOwner);
 
   return (
     <Grid
@@ -78,9 +79,9 @@ export const OwnerSearch = () => {
         gap={4}
       >
         <Select
-          value={ownerName}
+          value={ownerId}
           inputProps={{ 'aria-label': 'Without label' }}
-          onChange={(e) => setOwnerName(e.target.value)}
+          onChange={(e) => setOwnerId(e.target.value)}
           placeholder="Selecione"
           sx={{
             width: '500px',
@@ -97,14 +98,17 @@ export const OwnerSearch = () => {
         </Select>
         <Link></Link>
         <IconButton
-          onClick={() => {
-            getOwnerById(ownerName);
+          onClick={async () => {
+            const response = await getOwnerById(ownerId);
+            if (response.status == 200) {
+              navigate(`/owners/${ownerId}/pets`);
+            }
           }}
-          href={!!selectedOwner ? `/owner/${ownerName}` : '/owners'}
         >
           <SearchIcon sx={{ fontSize: '35px' }} />
         </IconButton>
       </Grid>
+      {!!snackbarOpen.status && <SnackbarComponent />}
     </Grid>
   );
 };

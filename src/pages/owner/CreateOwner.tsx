@@ -18,26 +18,14 @@ import { useEffect, useState } from 'react';
 import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
+import { ownerInit } from '../../types/Owner';
 // import { PhoneMask } from '../../components/masks/PhoneMask';
 
 export const CreateOwner = () => {
   const { createOwner, snackbarOpen } = useVetCareContext();
   const navigate = useNavigate();
 
-  const [ownerData, setOwnerData] = useState({
-    name: '',
-    address: '',
-    phoneNumber: '',
-    email: '',
-    dateOfBirth: '',
-    gender: '',
-    maritalStatus: '',
-    occupation: '',
-    preferredPaymentMethod: '',
-    petInsuranceDetails: '',
-    additionalNotes: '',
-    registrationDate: new Date(),
-  });
+  const [ownerData, setOwnerData] = useState(ownerInit);
   const [loading, setLoading] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
 
