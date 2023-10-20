@@ -6,6 +6,8 @@ import App from './pages/App';
 import { Home } from './pages/Home';
 import { OwnerSearch } from './pages/owner/OwnerSearch';
 import { CreateOwner } from './pages/owner/CreateOwner';
+import { OwnerDashboard } from './pages/owner/OwnerDashboard';
+import { ChartsDashboard } from './pages/charts/ChartsDashboard';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
   {
     path: '/owners/create',
     element: <CreateOwner />,
+  },
+  {
+    path: '/owners/:id/pets',
+    element: <OwnerDashboard />,
+  },
+  {
+    path: '/owners/:id/charts',
+    element: <ChartsDashboard />,
   },
 ]);
 
