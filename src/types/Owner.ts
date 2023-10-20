@@ -8,9 +8,24 @@ export interface Owner {
   gender: string;
   maritalStatus: string;
   occupation: string;
-  photoUrl?: string;
+  photoUrl?: string | null;
   preferredPaymentMethod?: string;
   petInsuranceDetails?: string;
   additionalNotes?: string;
   registrationDate: string | Date;
 }
+
+export const ownerInit = {
+  name: '',
+  address: '',
+  phoneNumber: '',
+  email: '',
+  dateOfBirth: '',
+  gender: '',
+  maritalStatus: '',
+  occupation: '',
+  preferredPaymentMethod: '',
+  petInsuranceDetails: '',
+  additionalNotes: '',
+  registrationDate: new Date(),
+};
