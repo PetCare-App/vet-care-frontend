@@ -3,12 +3,16 @@ import React, { createContext, useContext, useState } from 'react';
 import { Owner, ownerInit } from '../types/Owner';
 import { ownersService } from '../services/ownersService';
 import { AxiosResponse } from 'axios';
+import { Pet, petInit } from '../types/Pet';
+import { petService } from '../services/petService';
 
 export const VetCareContext = createContext({} as any);
 
 export function ProviderContext({ children }: any) {
   const [owners, setOwners] = useState<Owner[]>([]);
   const [selectedOwner, setSelectedOwner] = useState<Owner>(ownerInit);
+
+  const [selectedPet, setSelectedPet] = useState(petInit);
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
     type: string;
@@ -90,11 +94,37 @@ export function ProviderContext({ children }: any) {
       return error?.response;
     }
   };
+
+  //PETS
+
+  const createPet = async (data: Pet) => {
+    try {
+      const response: AxiosResponse = await petService.create(data);
+
+      if (response.status == 201) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao cadastrar o pet! :)',
+        });
+      }
+      return response;
+    } catch (error) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos cadastrar o pet, volte mais tarde! :(',
+      });
+      console.log('error', error);
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
     selectedOwner,
     selectedMenuOption,
+    selectedPet,
   };
 
   const actions = {
@@ -105,6 +135,8 @@ export function ProviderContext({ children }: any) {
     getOwnerById,
     setSelectedMenuOption,
     updateOwner,
+    createPet,
+    setSelectedPet,
   };
 
   return (

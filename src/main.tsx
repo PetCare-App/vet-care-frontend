@@ -8,6 +8,7 @@ import { OwnerSearch } from './pages/owner/OwnerSearch';
 import { CreateOwner } from './pages/owner/CreateOwner';
 import { PetsDashboard } from './pages/pets/PetsDashboard';
 import { ChartsDashboard } from './pages/charts/ChartsDashboard';
+import { CreatePet } from './pages/pets/CreatePet';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/owners/:id/pets',
     element: <PetsDashboard />,
+  },
+  {
+    path: '/owners/:id/pets/create',
+    element: <CreatePet />,
   },
   {
     path: '/owners/:id/charts',

@@ -14,8 +14,10 @@ import { Owner } from '../../types/Owner';
 import { useState } from 'react';
 import { InfoItem } from '../../components/InfoItem';
 import { OwnerDialog } from '../owner/OwnerDialog';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <Grid container flexDirection="row" alignContent="flex-start">
       <Grid
@@ -40,7 +42,10 @@ const Header = () => {
           </Link>
           <Typography color="text.primary">Aqui</Typography>
         </Breadcrumbs>
-        <Button variant="outlined" href="/pets/create">
+        <Button
+          variant="outlined"
+          onClick={() => navigate('../pets/create', { relative: 'path' })}
+        >
           Novo Pet
         </Button>
       </Grid>
