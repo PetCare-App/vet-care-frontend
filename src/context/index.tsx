@@ -67,6 +67,29 @@ export function ProviderContext({ children }: any) {
       console.log('error', error);
     }
   };
+
+  const updateOwner = async (data: Owner) => {
+    try {
+      const response: AxiosResponse = await ownersService.updateOwner(data);
+
+      if (response.status == 201) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao cadastrar o editar o tutor! :)',
+        });
+      }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos editar o tutor, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
   const states = {
     owners,
     snackbarOpen,
@@ -81,6 +104,7 @@ export function ProviderContext({ children }: any) {
     getOwnersList,
     getOwnerById,
     setSelectedMenuOption,
+    updateOwner,
   };
 
   return (

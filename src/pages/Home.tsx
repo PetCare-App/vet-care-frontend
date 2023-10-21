@@ -5,7 +5,6 @@ const S_Card = ({ title, redirect }: { title: string; redirect: string }) => {
     <Link underline="hover" color="inherit" href={redirect}>
       <Card
         variant="outlined"
-        onClick={() => console.log('redirect', redirect)}
         sx={{
           height: '200px',
           width: '200px',

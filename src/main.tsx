@@ -6,7 +6,7 @@ import App from './pages/App';
 import { Home } from './pages/Home';
 import { OwnerSearch } from './pages/owner/OwnerSearch';
 import { CreateOwner } from './pages/owner/CreateOwner';
-import { OwnerDashboard } from './pages/owner/OwnerDashboard';
+import { PetsDashboard } from './pages/pets/PetsDashboard';
 import { ChartsDashboard } from './pages/charts/ChartsDashboard';
 
 const router = createBrowserRouter([
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/owners/:id/pets',
-    element: <OwnerDashboard />,
+    element: <PetsDashboard />,
   },
   {
     path: '/owners/:id/charts',
