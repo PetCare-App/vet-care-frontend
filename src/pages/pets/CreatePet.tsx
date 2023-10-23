@@ -58,7 +58,6 @@ export const CreatePet = () => {
     //   );
   }, [petData]);
 
-  console.log('petData', petData);
   return (
     <Grid
       sx={{

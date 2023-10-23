@@ -9,6 +9,7 @@ import { CreateOwner } from './pages/owner/CreateOwner';
 import { PetsDashboard } from './pages/pets/PetsDashboard';
 import { ChartsDashboard } from './pages/charts/ChartsDashboard';
 import { CreatePet } from './pages/pets/CreatePet';
+import { PetInfo } from './pages/pets/PetInfo';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '/owners/:id/charts',
     element: <ChartsDashboard />,
+  },
+  {
+    path: '/pets/:id',
+    element: <PetInfo />,
   },
 ]);
 

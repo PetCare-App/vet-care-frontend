@@ -30,7 +30,25 @@ export const ownerInit = {
   petInsuranceDetails: 'não possui',
   additionalNotes: 'teste',
   registrationDate: '2023-10-11T23:40:06.487Z',
-  patients: [],
+  patients: [
+    {
+      id: 1,
+      name: 'Salem',
+      species: 'Gato',
+      breed: 'Perfeito',
+      dateOfBirth: '2018-07-18T00:00:00.000Z',
+      sex: 'male',
+      color: 'Preto',
+      weight: '6.3',
+      allergies: 'não',
+      medications: '',
+      ownerId: 1,
+      emergencyContact: '',
+      photoUrl: '',
+      currentStatus: 'n/a',
+      additionalNotes: 'eu amo o salem',
+    },
+  ],
 };
 
 // {

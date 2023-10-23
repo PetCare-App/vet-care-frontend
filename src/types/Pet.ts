@@ -3,7 +3,7 @@ export interface Pet {
   name: string;
   species: string;
   breed: string;
-  dateOfBirth?: string | Date;
+  dateOfBirth?: string;
   sex: string;
   color: string;
   weight: number;

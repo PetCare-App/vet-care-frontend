@@ -11,10 +11,12 @@ import { Menu } from '../../components/Menu';
 import { useVetCareContext } from '../../context';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { Owner } from '../../types/Owner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InfoItem } from '../../components/InfoItem';
 import { OwnerDialog } from '../owner/OwnerDialog';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { PetInfoCard } from './PetInfoCard';
+import { Pet } from '../../types/Pet';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -101,12 +103,18 @@ const OwnerInfo = ({
 };
 
 export const PetsDashboard = () => {
-  const { selectedOwner } = useVetCareContext();
+  const location = useLocation();
+
+  const { selectedOwner, getOwnerById } = useVetCareContext();
   const [openOwnerDialog, setOpenOwnerDialog] = useState(false);
 
   const handleCloseDialog = () => {
     setOpenOwnerDialog(false);
   };
+
+  useEffect(() => {
+    getOwnerById(location.pathname.split('/')[2]);
+  }, []);
 
   return (
     <>
@@ -118,6 +126,19 @@ export const PetsDashboard = () => {
             selectedOwner={selectedOwner}
             setOpenOwnerDialog={setOpenOwnerDialog}
           />
+          <Grid
+            container
+            sx={{
+              width: '100%',
+              height: 'calc(100% - 250px)',
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {selectedOwner.patients.map((pet: Pet) => (
+              <PetInfoCard pet={pet} key={pet.id} />
+            ))}
+          </Grid>
         </Grid>
         {!!openOwnerDialog && (
           <OwnerDialog open={openOwnerDialog} handleClose={handleCloseDialog} />

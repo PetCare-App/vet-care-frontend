@@ -119,6 +119,23 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  const getPetById = async (id: number) => {
+    try {
+      const response: any = await petService.getById(id);
+      console.log('response', response);
+      setSelectedPet(response.data);
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos buscar este pet, tente novamente! :(',
+      });
+      console.log('error', error);
+      return error.response;
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
@@ -137,6 +154,7 @@ export function ProviderContext({ children }: any) {
     updateOwner,
     createPet,
     setSelectedPet,
+    getPetById,
   };
 
   return (
