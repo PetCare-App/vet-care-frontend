@@ -20,6 +20,7 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
 import { petInit } from '../../types/Pet';
+import { Menu } from '../../components/Menu';
 
 export const CreatePet = () => {
   const { createPet, snackbarOpen, selectedOwner } = useVetCareContext();
@@ -59,184 +60,187 @@ export const CreatePet = () => {
   }, [petData]);
 
   return (
-    <Grid
-      sx={{
-        pt: '30px',
-      }}
-    >
-      <Header
-        breadcrumbs={
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/owners">
-              Tutores
-            </Link>
-            <Link
-              underline="hover"
-              color="inherit"
-              href={`/owners/${selectedOwner.id}/pets`}
-            >
-              Pets
-            </Link>
-            <Typography color="text.primary">Aqui</Typography>
-          </Breadcrumbs>
-        }
-        title={'Crie um pet!'}
-      />
-      <form
-        onSubmit={(e) => {
-          setLoading(true);
-          handleSubmit(e);
+    <Grid container flexDirection="row" flexWrap="nowrap">
+      <Menu />
+      <Grid
+        sx={{
+          pt: '30px',
         }}
-        style={{ width: '1000px' }}
       >
-        <Grid
-          container
-          sx={{ width: '100vw', marginTop: '100px' }}
-          justifyContent="center"
-          flexWrap={'nowrap'}
-          gap={12}
+        <Header
+          breadcrumbs={
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link underline="hover" color="inherit" href="/owners">
+                Tutores
+              </Link>
+              <Link
+                underline="hover"
+                color="inherit"
+                href={`/owners/${selectedOwner.id}/pets`}
+              >
+                Pets
+              </Link>
+              <Typography color="text.primary">Aqui</Typography>
+            </Breadcrumbs>
+          }
+          title={'Adicione um paciente!'}
+        />
+        <form
+          onSubmit={(e) => {
+            setLoading(true);
+            handleSubmit(e);
+          }}
+          style={{ width: '1000px' }}
         >
           <Grid
             container
-            sx={{ width: '500px' }}
+            sx={{ marginTop: '100px' }}
             justifyContent="center"
-            direction={'column'}
-            gap={4}
+            flexWrap={'nowrap'}
+            gap={12}
           >
-            <Grid item>
-              <TextField
-                label="Nome *"
-                name="name"
-                value={petData.name}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Espécie *"
-                name="species"
-                value={petData.species}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Raça *"
-                name="breed"
-                value={petData.breed}
-                onChange={handleChange}
-                // InputProps={{
-                //   inputComponent: PhoneMask,
-                // }}
-                fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Peso *"
-                name="weight"
-                type="number"
-                inputProps={{
-                  min: 0, // Define um valor mínimo, se necessário
-                  step: 0.1, // Define o incremento (por padrão, é 1)
-                }}
-                value={petData.weight}
-                onChange={handleChange}
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">kg</InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            sx={{ width: '500px', marginTop: '0px' }}
-            justifyContent="center"
-            direction={'column'}
-            gap={4}
-          >
-            <Grid item sx={{ marginTop: '-20px' }}>
-              <InputLabel>Data de nascimento *</InputLabel>
-              <TextField
-                name="dateOfBirth"
-                type="date"
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <FormControl>
-                <InputLabel>Gênero *</InputLabel>
-                <Select
-                  name="sex"
-                  value={petData.sex}
-                  onChange={handleChange}
-                  sx={{ width: '500px' }}
-                >
-                  <MenuItem value="female">Fêmea</MenuItem>
-                  <MenuItem value="male">Macho</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Alergias"
-                name="allergies"
-                value={petData.allergies}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                label="Pelagem *"
-                name="color"
-                value={petData.color}
-                onChange={handleChange}
-                fullWidth
-              />
-            </Grid>
-          </Grid>
-        </Grid>
-        {/**GRID BOTÕES */}
-        <Grid
-          container
-          direction="column"
-          sx={{ width: '100vw', marginTop: '50px' }}
-          justifyContent="center"
-          alignContent="center"
-          gap={8}
-        >
-          <Grid item>
-            <TextField
-              label="Notas Adicionais *"
-              name="additionalNotes"
-              value={petData.additionalNotes}
-              onChange={handleChange}
-              sx={{ width: '1100px' }}
-              multiline
-              rows={4}
-            />
-          </Grid>
-
-          <Grid item alignSelf="flex-end">
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={disableButton || !!loading}
+            <Grid
+              container
+              sx={{ width: '400px' }}
+              justifyContent="center"
+              direction={'column'}
+              gap={4}
             >
-              Enviar
-            </Button>
+              <Grid item>
+                <TextField
+                  label="Nome *"
+                  name="name"
+                  value={petData.name}
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  label="Espécie *"
+                  name="species"
+                  value={petData.species}
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  label="Raça *"
+                  name="breed"
+                  value={petData.breed}
+                  onChange={handleChange}
+                  // InputProps={{
+                  //   inputComponent: PhoneMask,
+                  // }}
+                  sx={{ width: '400px' }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  label="Peso *"
+                  name="weight"
+                  type="number"
+                  inputProps={{
+                    min: 0, // Define um valor mínimo, se necessário
+                    step: 0.1, // Define o incremento (por padrão, é 1)
+                  }}
+                  value={petData.weight}
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">kg</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              sx={{ width: '400px', marginTop: '0px' }}
+              justifyContent="center"
+              direction={'column'}
+              gap={4}
+            >
+              <Grid item sx={{ marginTop: '-20px' }}>
+                <InputLabel>Data de nascimento *</InputLabel>
+                <TextField
+                  name="dateOfBirth"
+                  type="date"
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}
+                />
+              </Grid>
+              <Grid item>
+                <FormControl>
+                  <InputLabel>Gênero *</InputLabel>
+                  <Select
+                    name="sex"
+                    value={petData.sex}
+                    onChange={handleChange}
+                    sx={{ width: '400px' }}
+                  >
+                    <MenuItem value="female">Fêmea</MenuItem>
+                    <MenuItem value="male">Macho</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item>
+                <TextField
+                  label="Alergias"
+                  name="allergies"
+                  value={petData.allergies}
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  label="Pelagem *"
+                  name="color"
+                  value={petData.color}
+                  onChange={handleChange}
+                  sx={{ width: '400px' }}
+                />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
-      {!!snackbarOpen.status && <SnackbarComponent />}
+          {/**GRID BOTÕES */}
+          <Grid
+            container
+            direction="column"
+            sx={{ marginTop: '50px' }}
+            justifyContent="center"
+            alignContent="center"
+            gap={8}
+          >
+            <Grid item>
+              <TextField
+                label="Notas Adicionais *"
+                name="additionalNotes"
+                value={petData.additionalNotes}
+                onChange={handleChange}
+                sx={{ width: '900px' }}
+                multiline
+                rows={4}
+              />
+            </Grid>
+
+            <Grid item alignSelf="flex-end">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={disableButton || !!loading}
+              >
+                Enviar
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+        {!!snackbarOpen.status && <SnackbarComponent />}
+      </Grid>
     </Grid>
   );
 };

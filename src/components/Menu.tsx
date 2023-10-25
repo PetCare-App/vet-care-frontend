@@ -88,7 +88,6 @@ export const Menu = () => {
       container
       sx={{
         background: '#EAEAEA',
-        height: '100vh',
         width: '300px',
         padding: '0px',
         justifyContent: 'center',
