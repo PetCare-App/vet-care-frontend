@@ -92,6 +92,7 @@ export const Menu = () => {
         padding: '0px',
         justifyContent: 'center',
         alignContent: 'flex-start',
+        height: '100%',
       }}
     >
       <Avatar

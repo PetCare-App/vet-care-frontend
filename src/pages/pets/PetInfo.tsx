@@ -419,7 +419,7 @@ export const PetInfo = () => {
 
   return (
     <>
-      <Grid container flexDirection="row" flexWrap="nowrap">
+      <Grid container flexDirection="row" flexWrap="nowrap" height="100%">
         <Menu />
         <Grid container alignContent="flex-start">
           <Header />

@@ -60,7 +60,7 @@ export const CreatePet = () => {
   }, [petData]);
 
   return (
-    <Grid container flexDirection="row" flexWrap="nowrap">
+    <Grid container flexDirection="row" flexWrap="nowrap" height="100%">
       <Menu />
       <Grid
         sx={{
@@ -89,6 +89,7 @@ export const CreatePet = () => {
           onSubmit={(e) => {
             setLoading(true);
             handleSubmit(e);
+            setLoading(false);
           }}
           style={{ width: '1000px' }}
         >
