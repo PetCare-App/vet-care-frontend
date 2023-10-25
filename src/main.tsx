@@ -44,6 +44,10 @@ const router = createBrowserRouter([
     path: '/pets/:id',
     element: <PetInfo />,
   },
+  {
+    path: '/pets/:id/update',
+    element: <PetInfo />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

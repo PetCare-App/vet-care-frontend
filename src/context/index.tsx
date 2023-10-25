@@ -136,6 +136,28 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  const updatePet = async (data: Pet) => {
+    try {
+      const response: AxiosResponse = await petService.update(data);
+
+      if (response.status == 200) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao editar o pet! :)',
+        });
+      }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos editar o pet, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
   const states = {
     owners,
     snackbarOpen,
@@ -155,6 +177,7 @@ export function ProviderContext({ children }: any) {
     createPet,
     setSelectedPet,
     getPetById,
+    updatePet,
   };
 
   return (
