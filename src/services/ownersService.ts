@@ -12,4 +12,7 @@ export const ownersService = {
     return await api.get(`/owners/${id}`);
     // return await api.get(`/owners/120`);
   },
+  updateOwner: async (data: Owner) => {
+    return await api.patch(`/owners/${data.id}`, data);
+  },
 };

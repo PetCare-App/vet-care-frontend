@@ -50,7 +50,11 @@ export const CreateOwner = () => {
   }, [ownerData]);
 
   return (
-    <>
+    <Grid
+      sx={{
+        pt: '30px',
+      }}
+    >
       <Header
         breadcrumbs={
           <Breadcrumbs aria-label="breadcrumb">
@@ -63,7 +67,7 @@ export const CreateOwner = () => {
             <Typography color="text.primary">Aqui</Typography>
           </Breadcrumbs>
         }
-        title={'Crie seu tutor!'}
+        title={'Crie um tutor!'}
       />
       <form
         onSubmit={(e) => {
@@ -245,6 +249,6 @@ export const CreateOwner = () => {
         </Grid>
       </form>
       {!!snackbarOpen.status && <SnackbarComponent />}
-    </>
+    </Grid>
   );
 };

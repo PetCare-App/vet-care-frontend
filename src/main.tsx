@@ -6,8 +6,10 @@ import App from './pages/App';
 import { Home } from './pages/Home';
 import { OwnerSearch } from './pages/owner/OwnerSearch';
 import { CreateOwner } from './pages/owner/CreateOwner';
-import { OwnerDashboard } from './pages/owner/OwnerDashboard';
+import { PetsDashboard } from './pages/pets/PetsDashboard';
 import { ChartsDashboard } from './pages/charts/ChartsDashboard';
+import { CreatePet } from './pages/pets/CreatePet';
+import { PetInfo } from './pages/pets/PetInfo';
 
 const router = createBrowserRouter([
   {
@@ -28,11 +30,23 @@ const router = createBrowserRouter([
   },
   {
     path: '/owners/:id/pets',
-    element: <OwnerDashboard />,
+    element: <PetsDashboard />,
+  },
+  {
+    path: '/owners/:id/pets/create',
+    element: <CreatePet />,
   },
   {
     path: '/owners/:id/charts',
     element: <ChartsDashboard />,
+  },
+  {
+    path: '/pets/:id',
+    element: <PetInfo />,
+  },
+  {
+    path: '/pets/:id/update',
+    element: <PetInfo />,
   },
 ]);
 

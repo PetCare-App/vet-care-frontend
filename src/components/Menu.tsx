@@ -36,11 +36,11 @@ const MenuItem = ({
       <Link
         key={index}
         component="button"
-        variant="h5"
+        variant="h6"
         sx={{
           height: '50px',
           color: '#000',
-          ml: '45px',
+          ml: '30px',
         }}
         underline="none"
         onClick={() => {
@@ -88,11 +88,11 @@ export const Menu = () => {
       container
       sx={{
         background: '#EAEAEA',
-        height: '100vh',
         width: '300px',
         padding: '0px',
         justifyContent: 'center',
         alignContent: 'flex-start',
+        height: '100%',
       }}
     >
       <Avatar
