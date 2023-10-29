@@ -234,6 +234,7 @@ export const CreatePet = () => {
                 color="primary"
                 type="submit"
                 disabled={disableButton || !!loading}
+                sx={{ color: 'white' }}
               >
                 Enviar
               </Button>

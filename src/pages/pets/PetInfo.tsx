@@ -313,6 +313,7 @@ const UpdatePet = ({
               color="primary"
               type="submit"
               disabled={!!loading}
+              sx={{ color: 'white' }}
             >
               Enviar
             </Button>
