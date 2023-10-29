@@ -122,7 +122,6 @@ export function ProviderContext({ children }: any) {
   const getPetById = async (id: number) => {
     try {
       const response: any = await petService.getById(id);
-      console.log('response', response);
       setSelectedPet(response.data);
       return response;
     } catch (error: any) {

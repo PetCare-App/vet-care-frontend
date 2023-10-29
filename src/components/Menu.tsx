@@ -1,7 +1,8 @@
 import { Avatar, Box, Grid, Link } from '@mui/material';
 import { useVetCareContext } from '../context';
 import VetCareLogo from './../assets/vetcare-logo.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const MenuItem = ({
   selectedMenuOption,
@@ -15,6 +16,9 @@ const MenuItem = ({
   item: { url: string; label: string };
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { selectedOwner } = useVetCareContext();
 
   return (
     <Box
@@ -30,7 +34,9 @@ const MenuItem = ({
       }}
       onClick={() => {
         setSelectedMenuOption(index);
-        navigate(`..${item.url}`, { relative: 'path' });
+        if (location.pathname.includes('owners'))
+          navigate(`..${item.url}`, { relative: 'path' });
+        else navigate(`/owners/${selectedOwner.id}${item.url}`);
       }}
     >
       <Link
@@ -45,7 +51,9 @@ const MenuItem = ({
         underline="none"
         onClick={() => {
           setSelectedMenuOption(index);
-          navigate(`..${item.url}`, { relative: 'path' });
+          if (location.pathname.includes('owners'))
+            navigate(`..${item.url}`, { relative: 'path' });
+          else navigate(`/owners/${selectedOwner.id}${item.url}`);
         }}
       >
         {item.label}
@@ -55,14 +63,16 @@ const MenuItem = ({
 };
 
 export const Menu = () => {
+  const location = useLocation();
+
   const { selectedMenuOption, setSelectedMenuOption } = useVetCareContext();
   const menuList: { url: string; label: string }[] = [
     {
-      url: '/pets',
+      url: `/pets`,
       label: 'Pets',
     },
     {
-      url: '/charts',
+      url: `/charts`,
       label: 'Prontuários',
     },
     {
@@ -82,6 +92,12 @@ export const Menu = () => {
       label: 'Histórico',
     },
   ];
+
+  useEffect(() => {
+    setSelectedMenuOption(
+      menuList.findIndex((item) => location.pathname.includes(item.url)),
+    );
+  }, []);
 
   return (
     <Grid

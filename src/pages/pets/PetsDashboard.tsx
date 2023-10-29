@@ -136,7 +136,7 @@ export const PetsDashboard = () => {
             }}
           >
             {selectedOwner.patients.map((pet: Pet) => (
-              <PetInfoCard pet={pet} key={pet.id} />
+              <PetInfoCard pet={pet} key={pet.id} url={`/pets/${pet.id}`} />
             ))}
           </Grid>
         </Grid>

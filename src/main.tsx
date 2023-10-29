@@ -10,6 +10,21 @@ import { ChartsDashboard } from './pages/charts/ChartsDashboard';
 import { CreatePet } from './pages/pets/CreatePet';
 import { PetInfo } from './pages/pets/PetInfo';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
+import { ChartPage } from './pages/charts/ChartPage';
+
+const themeOptions: ThemeOptions = {
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#48b281',
+    },
+    secondary: {
+      main: '#08869c',
+    },
+  },
+};
+
+const theme = createTheme(themeOptions);
 
 const router = createBrowserRouter([
   {
@@ -37,10 +52,6 @@ const router = createBrowserRouter([
     element: <CreatePet />,
   },
   {
-    path: '/owners/:id/charts',
-    element: <ChartsDashboard />,
-  },
-  {
     path: '/pets/:id',
     element: <PetInfo />,
   },
@@ -48,21 +59,19 @@ const router = createBrowserRouter([
     path: '/pets/:id/update',
     element: <PetInfo />,
   },
-]);
-const themeOptions: ThemeOptions = {
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#48b281',
-    },
-    secondary: {
-      main: '#08869c',
-    },
+  {
+    path: '/owners/:id/charts',
+    element: <ChartsDashboard />,
   },
-};
-
-const theme = createTheme(themeOptions);
-
+  {
+    path: '/charts/:id',
+    element: <ChartPage />,
+  },
+  {
+    path: '/charts/:id/create',
+    element: <ChartPage />,
+  },
+]);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
