@@ -92,29 +92,36 @@ export const Menu = () => {
         padding: '0px',
         justifyContent: 'center',
         alignContent: 'flex-start',
-        height: '100%',
+        height: '100vh',
       }}
     >
       <Avatar
         alt="vetcare logo"
         src={VetCareLogo}
-        sx={{ width: 150, height: 150, marginTop: '50px' }}
-      />
-      <Grid
-        container
         sx={{
-          width: '100%',
+          width: 200,
+          height: 200,
           marginTop: '50px',
+          '> img': { objectFit: 'fill' },
         }}
-      >
-        {menuList.map((item, index) => (
-          <MenuItem
-            selectedMenuOption={selectedMenuOption}
-            setSelectedMenuOption={setSelectedMenuOption}
-            index={index}
-            item={item}
-          />
-        ))}
+      />
+      <Grid sx={{ height: '100%', background: '#EAEAEA' }}>
+        <Grid
+          container
+          sx={{
+            width: '100%',
+            marginTop: '50px',
+          }}
+        >
+          {menuList.map((item, index) => (
+            <MenuItem
+              selectedMenuOption={selectedMenuOption}
+              setSelectedMenuOption={setSelectedMenuOption}
+              index={index}
+              item={item}
+            />
+          ))}
+        </Grid>
       </Grid>
     </Grid>
   );

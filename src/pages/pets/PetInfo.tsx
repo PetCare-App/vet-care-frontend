@@ -18,7 +18,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Menu } from '../../components/Menu';
 import { useVetCareContext } from '../../context';
 import Paw from './../../assets/paw.png';
 import Dog from './../../assets/dog.png';
@@ -32,6 +31,7 @@ import { dateFormatter } from '../../utils/dateFormatter';
 import { breeds, genders } from '../../utils/normalizers';
 import { Pet } from '../../types/Pet';
 import SnackbarComponent from '../../components/Snackbar';
+import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 
 const Header = () => {
   const { selectedPet } = useVetCareContext();
@@ -418,43 +418,40 @@ export const PetInfo = () => {
   }, []);
 
   return (
-    <>
-      <Grid container flexDirection="row" flexWrap="nowrap" height="100%">
-        <Menu />
-        <Grid container alignContent="flex-start">
-          <Header />
-          <Stack sx={{ height: 'calc(100% - 150px)', width: '100%' }}>
-            {!!loadingInfo && !errorPage ? (
-              <Stack
-                alignContent="center"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ height: 'calc(100% - 150px)', width: '100%' }}
-              >
-                <CircularProgress
-                  color="primary"
-                  sx={{ justifySelf: 'center' }}
-                />
-              </Stack>
-            ) : !loadingInfo && !!errorPage ? (
-              <Stack
-                alignContent="center"
-                justifyContent="center"
-                alignItems="center"
-                sx={{ height: 'calc(100% - 150px)', width: '100%' }}
-              >
-                <ErrorPage
-                  label={
-                    'Não foi possível buscar as informações deste pet, tente novamente!'
-                  }
-                />
-              </Stack>
-            ) : (
-              <PageContent />
-            )}
-          </Stack>
-        </Grid>
+    <BackgroundWrapper>
+      <Grid container alignContent="flex-start">
+        <Header />
+        <Stack sx={{ height: 'calc(100% - 150px)', width: '100%' }}>
+          {!!loadingInfo && !errorPage ? (
+            <Stack
+              alignContent="center"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ height: 'calc(100% - 150px)', width: '100%' }}
+            >
+              <CircularProgress
+                color="primary"
+                sx={{ justifySelf: 'center' }}
+              />
+            </Stack>
+          ) : !loadingInfo && !!errorPage ? (
+            <Stack
+              alignContent="center"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ height: 'calc(100% - 150px)', width: '100%' }}
+            >
+              <ErrorPage
+                label={
+                  'Não foi possível buscar as informações deste pet, tente novamente!'
+                }
+              />
+            </Stack>
+          ) : (
+            <PageContent />
+          )}
+        </Stack>
       </Grid>
-    </>
+    </BackgroundWrapper>
   );
 };

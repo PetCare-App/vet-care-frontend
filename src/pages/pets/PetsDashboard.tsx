@@ -17,6 +17,7 @@ import { OwnerDialog } from '../owner/OwnerDialog';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PetInfoCard } from './PetInfoCard';
 import { Pet } from '../../types/Pet';
+import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -117,10 +118,9 @@ export const PetsDashboard = () => {
   }, []);
 
   return (
-    <>
-      <Grid container flexDirection="row" flexWrap="nowrap" height="100%">
-        <Menu />
-        <Grid container alignContent="flex-start">
+    <BackgroundWrapper>
+      <>
+        <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
           <Header />
           <OwnerInfo
             selectedOwner={selectedOwner}
@@ -143,7 +143,7 @@ export const PetsDashboard = () => {
         {!!openOwnerDialog && (
           <OwnerDialog open={openOwnerDialog} handleClose={handleCloseDialog} />
         )}
-      </Grid>
-    </>
+      </>
+    </BackgroundWrapper>
   );
 };
