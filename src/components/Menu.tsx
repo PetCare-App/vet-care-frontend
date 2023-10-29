@@ -21,11 +21,11 @@ const MenuItem = ({
       sx={{
         width: '100%',
         backgroundColor: `${
-          selectedMenuOption == index ? '#8EAEC4' : '#EAEAEA'
+          selectedMenuOption == index ? '#48b281' : '#EAEAEA'
         }`,
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: '#A9A9A9',
+          backgroundColor: '#48b281',
         },
       }}
       onClick={() => {
