@@ -65,6 +65,7 @@ export const CreatePet = () => {
       <Grid
         sx={{
           pt: '30px',
+          width: '100%',
         }}
       >
         <Header
