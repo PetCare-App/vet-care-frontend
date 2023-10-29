@@ -20,6 +20,14 @@ const MenuItem = ({
 
   const { selectedOwner } = useVetCareContext();
 
+  const handleUrlChange = () => {
+    if (
+      location.pathname.includes('owners') &&
+      !location.pathname.includes('create')
+    )
+      navigate(`..${item.url}`, { relative: 'path' });
+    else navigate(`/owners/${selectedOwner.id}${item.url}`);
+  };
   return (
     <Box
       sx={{
@@ -34,9 +42,7 @@ const MenuItem = ({
       }}
       onClick={() => {
         setSelectedMenuOption(index);
-        if (location.pathname.includes('owners'))
-          navigate(`..${item.url}`, { relative: 'path' });
-        else navigate(`/owners/${selectedOwner.id}${item.url}`);
+        handleUrlChange();
       }}
     >
       <Link
@@ -51,9 +57,7 @@ const MenuItem = ({
         underline="none"
         onClick={() => {
           setSelectedMenuOption(index);
-          if (location.pathname.includes('owners'))
-            navigate(`..${item.url}`, { relative: 'path' });
-          else navigate(`/owners/${selectedOwner.id}${item.url}`);
+          handleUrlChange();
         }}
       >
         {item.label}
