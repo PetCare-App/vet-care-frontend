@@ -11,6 +11,7 @@ import { CreatePet } from './pages/pets/CreatePet';
 import { PetInfo } from './pages/pets/PetInfo';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import { ChartPage } from './pages/charts/ChartPage';
+import { CreateChart } from './pages/charts/CreateChart';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -69,7 +70,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/charts/:id/create',
-    element: <ChartPage />,
+    element: <CreateChart />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(

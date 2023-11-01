@@ -5,6 +5,8 @@ import { ownersService } from '../services/ownersService';
 import { AxiosResponse } from 'axios';
 import { Pet, petInit } from '../types/Pet';
 import { petService } from '../services/petService';
+import { MedicalRecord, medicalRecordInit } from '../types/MedicalRecord';
+import { medicalRecordService } from '../services/medicalRecordService';
 
 export const VetCareContext = createContext({} as any);
 
@@ -13,6 +15,13 @@ export function ProviderContext({ children }: any) {
   const [selectedOwner, setSelectedOwner] = useState<Owner>(ownerInit);
 
   const [selectedPet, setSelectedPet] = useState(petInit);
+
+  const [selectedMedicalRecord, setSelectedMedicalRecord] =
+    useState(medicalRecordInit);
+
+  const [medicalRecordList, setMedicalRecordList] = useState<MedicalRecord[]>(
+    [],
+  );
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
     type: string;
@@ -157,12 +166,80 @@ export function ProviderContext({ children }: any) {
       return error?.response;
     }
   };
+
+  //MEDICAL RECORDS
+
+  const createMedicalRecord = async (data: MedicalRecord) => {
+    try {
+      const response: AxiosResponse = await medicalRecordService.create(data);
+
+      if (response.status == 201) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao cadastrar o prontuário! :)',
+        });
+      }
+      return response;
+    } catch (error) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos cadastrar o prontuário, volte mais tarde! :(',
+      });
+      console.log('error', error);
+    }
+  };
+
+  const getMedicalRecordById = async (id: number) => {
+    try {
+      const response: any = await medicalRecordService.getList();
+      setMedicalRecordList(response.data);
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos buscar este prontuário, tente novamente! :(',
+      });
+      console.log('error', error);
+      return error.response;
+    }
+  };
+
+  const updateMedicalRecord = async (data: MedicalRecord) => {
+    try {
+      const response: AxiosResponse = await medicalRecordService.update(data);
+
+      if (response.status == 200) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao editar o prontuário! :)',
+        });
+      }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos editar o prontuário, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
   const states = {
     owners,
     snackbarOpen,
     selectedOwner,
     selectedMenuOption,
     selectedPet,
+    selectedMedicalRecord,
+    medicalRecordList,
   };
 
   const actions = {
@@ -177,6 +254,10 @@ export function ProviderContext({ children }: any) {
     setSelectedPet,
     getPetById,
     updatePet,
+    setSelectedMedicalRecord,
+    createMedicalRecord,
+    updateMedicalRecord,
+    getMedicalRecordById,
   };
 
   return (

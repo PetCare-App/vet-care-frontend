@@ -19,8 +19,10 @@ import { Pet } from '../../types/Pet';
 import { dateFormatter } from '../../utils/dateFormatter';
 import { genders } from '../../utils/normalizers';
 import { useNavigate } from 'react-router-dom';
+import { useVetCareContext } from '../../context';
 
 export const PetInfoCard = ({ pet, url }: { pet: Pet; url: string }) => {
+  const { setSelectedPet } = useVetCareContext();
   const navigate = useNavigate();
   return (
     <Card
@@ -65,6 +67,7 @@ export const PetInfoCard = ({ pet, url }: { pet: Pet; url: string }) => {
               <IconButton
                 onClick={() => {
                   navigate(`../../..${url}`, { relative: 'path' });
+                  setSelectedPet(pet);
                 }}
               >
                 <ReadMoreIcon sx={{ fontSize: '35px' }} />

@@ -30,6 +30,7 @@ const MenuItem = ({
   };
   return (
     <Box
+      key={`box-${index}`}
       sx={{
         width: '100%',
         backgroundColor: `${
@@ -46,7 +47,7 @@ const MenuItem = ({
       }}
     >
       <Link
-        key={index}
+        key={`link-${index}`}
         component="button"
         variant="h6"
         sx={{
@@ -135,6 +136,7 @@ export const Menu = () => {
         >
           {menuList.map((item, index) => (
             <MenuItem
+              key={Math.random()}
               selectedMenuOption={selectedMenuOption}
               setSelectedMenuOption={setSelectedMenuOption}
               index={index}
