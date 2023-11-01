@@ -19,9 +19,35 @@ export function ProviderContext({ children }: any) {
   const [selectedMedicalRecord, setSelectedMedicalRecord] =
     useState(medicalRecordInit);
 
-  const [medicalRecordList, setMedicalRecordList] = useState<MedicalRecord[]>(
-    [],
-  );
+  const [medicalRecordList, setMedicalRecordList] = useState<MedicalRecord[]>([
+    {
+      id: 1,
+      consultationDate: '2023-10-31T00:00:00.000Z',
+      diagnosis: 'Perfeição',
+      treatment: 'Beijinhos',
+      prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+      notes: '',
+      patientId: 1,
+    },
+    {
+      id: 2,
+      consultationDate: '2023-10-1T00:00:00.000Z',
+      diagnosis: 'Perfeição',
+      treatment: 'Beijinhos',
+      prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+      notes: '',
+      patientId: 1,
+    },
+    {
+      id: 3,
+      consultationDate: '2023-10-21T00:00:00.000Z',
+      diagnosis: 'Perfeição',
+      treatment: 'Beijinhos',
+      prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+      notes: '',
+      patientId: 1,
+    },
+  ]);
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
     type: string;

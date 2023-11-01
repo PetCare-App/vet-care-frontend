@@ -5,9 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { useVetCareContext } from '../../context';
 import { Pet } from '../../types/Pet';
 import { PetInfoCard } from '../pets/PetInfoCard';
-import { Owner } from '../../types/Owner';
 
-const Header = ({ selectedOwner }: { selectedOwner: Owner }) => {
+const Header = () => {
   return (
     <Grid container flexDirection="row" alignContent="flex-start">
       <Grid
@@ -27,12 +26,8 @@ const Header = ({ selectedOwner }: { selectedOwner: Owner }) => {
           <Link underline="hover" color="inherit" href="/home">
             Home
           </Link>
-          <Link
-            underline="hover"
-            color="inherit"
-            href={`/owners/${selectedOwner.id}/charts`}
-          >
-            Prontuários
+          <Link underline="hover" color="inherit" href="/owners">
+            Tutores
           </Link>
           <Typography color="text.primary">Aqui</Typography>
         </Breadcrumbs>

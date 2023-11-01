@@ -126,7 +126,7 @@ export const Menu = () => {
           '> img': { objectFit: 'fill' },
         }}
       />
-      <Grid sx={{ height: '100%', background: '#EAEAEA' }}>
+      <Grid sx={{ height: 'calc(100% + 100px)', background: '#EAEAEA' }}>
         <Grid
           container
           sx={{

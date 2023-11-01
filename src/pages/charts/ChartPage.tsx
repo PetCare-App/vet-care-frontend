@@ -3,9 +3,10 @@ import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
-import { useEffect } from 'react';
+import { ChartsTimeline } from './ChartsTimeline';
+import { Owner } from '../../types/Owner';
 
-const Header = ({ pet }: { pet: Pet }) => {
+const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
   const navigate = useNavigate();
 
   return (
@@ -27,9 +28,14 @@ const Header = ({ pet }: { pet: Pet }) => {
           <Link underline="hover" color="inherit" href="/home">
             Home
           </Link>
-          <Link underline="hover" color="inherit" href="/owners">
-            Tutores
+          <Link
+            underline="hover"
+            color="inherit"
+            href={`/owners/${owner.id}/charts`}
+          >
+            Prontuários
           </Link>
+
           <Typography color="text.primary">Aqui</Typography>
         </Breadcrumbs>
         <Button
@@ -47,12 +53,16 @@ const Header = ({ pet }: { pet: Pet }) => {
 };
 
 export const ChartPage = () => {
-  const { selectedPet, getMedicalRecordById, medicalRecordList } =
-    useVetCareContext();
+  const {
+    selectedPet,
+    selectedOwner,
+    getMedicalRecordById,
+    medicalRecordList,
+  } = useVetCareContext();
 
-  useEffect(() => {
-    getMedicalRecordById(selectedPet.id);
-  }, []);
+  // useEffect(() => {
+  //   getMedicalRecordById(selectedPet.id);
+  // }, []);
 
   console.log('medicalRecordList', medicalRecordList);
 
@@ -60,7 +70,13 @@ export const ChartPage = () => {
     <BackgroundWrapper>
       <>
         <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
-          <Header pet={selectedPet} />
+          <Header pet={selectedPet} owner={selectedOwner} />
+          <Grid
+            container
+            sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
+          >
+            <ChartsTimeline list={medicalRecordList} />
+          </Grid>
         </Grid>
       </>
     </BackgroundWrapper>

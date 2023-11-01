@@ -1,6 +1,6 @@
 export interface MedicalRecord {
   id?: number;
-  consultationDate: string | Date;
+  consultationDate: string;
   diagnosis: string;
   treatment: string;
   prescription?: string;
