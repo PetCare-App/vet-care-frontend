@@ -14,7 +14,12 @@ import {
 import { MedicalRecord } from '../../types/MedicalRecord';
 import { dateFormatter } from '../../utils/dateFormatter';
 import { grey } from '@mui/material/colors';
-import { Download, Edit, PictureAsPdfOutlined } from '@mui/icons-material';
+import {
+  Delete,
+  Download,
+  Edit,
+  PictureAsPdfOutlined,
+} from '@mui/icons-material';
 import React from 'react';
 import { useVetCareContext } from '../../context';
 
@@ -56,10 +61,12 @@ export const ChartsTimeline = ({
   list,
   openEdit,
   openDownload,
+  openDelete,
 }: {
   list: MedicalRecord[];
   openEdit: (data: MedicalRecord) => void;
   openDownload: (data: MedicalRecord) => void;
+  openDelete: (data: MedicalRecord) => void;
 }) => {
   const { setSelectedMedicalRecord } = useVetCareContext();
   return (
@@ -89,6 +96,14 @@ export const ChartsTimeline = ({
                   }}
                 >
                   <PictureAsPdfOutlined />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    openDelete(step);
+                    setSelectedMedicalRecord(step);
+                  }}
+                >
+                  <Delete />
                 </IconButton>
               </Grid>
             </StepLabel>

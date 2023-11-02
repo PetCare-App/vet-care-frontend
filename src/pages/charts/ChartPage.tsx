@@ -10,6 +10,7 @@ import { MedicalRecord } from '../../types/MedicalRecord';
 import { EditChartModal } from './EditChartModal';
 import { DownloadChartModal } from './DownloadChartModal';
 import SnackbarComponent from '../../components/Snackbar';
+import { DeleteChartModal } from './DeleteChartModal';
 
 const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
   const navigate = useNavigate();
@@ -72,6 +73,7 @@ export const ChartPage = () => {
   // }, []);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDownload, setOpenDownload] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   console.log('selectedMedicalRecord', selectedMedicalRecord);
 
@@ -81,6 +83,10 @@ export const ChartPage = () => {
 
   const handleOpenDownload = () => {
     setOpenDownload(true);
+  };
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
   };
   return (
     <BackgroundWrapper>
@@ -95,12 +101,16 @@ export const ChartPage = () => {
               list={medicalRecordList}
               openEdit={handleOpenEdit}
               openDownload={handleOpenDownload}
+              openDelete={handleOpenDelete}
             />
           </Grid>
         </Grid>
         {!!openEdit && <EditChartModal open={openEdit} setOpen={setOpenEdit} />}
         {!!openDownload && (
           <DownloadChartModal open={openDownload} setOpen={setOpenDownload} />
+        )}
+        {!!openDelete && (
+          <DeleteChartModal open={openDownload} setOpen={setOpenDelete} />
         )}
         {!!snackbarOpen && <SnackbarComponent />}
       </>
