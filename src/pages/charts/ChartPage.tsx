@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
 import { ChartsTimeline } from './ChartsTimeline';
 import { Owner } from '../../types/Owner';
+import { useState } from 'react';
+import { MedicalRecord } from '../../types/MedicalRecord';
+import { EditChartModal } from './EditChartModal';
+import { DownloadChartModal } from './DownloadChartModal';
 
 const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
   const navigate = useNavigate();
@@ -58,14 +62,24 @@ export const ChartPage = () => {
     selectedOwner,
     getMedicalRecordById,
     medicalRecordList,
+    selectedMedicalRecord,
   } = useVetCareContext();
 
   // useEffect(() => {
   //   getMedicalRecordById(selectedPet.id);
   // }, []);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDownload, setOpenDownload] = useState(false);
 
-  console.log('medicalRecordList', medicalRecordList);
+  console.log('selectedMedicalRecord', selectedMedicalRecord);
 
+  const handleOpenEdit = () => {
+    setOpenEdit(true);
+  };
+
+  const handleOpenDownload = () => {
+    setOpenDownload(true);
+  };
   return (
     <BackgroundWrapper>
       <>
@@ -75,9 +89,17 @@ export const ChartPage = () => {
             container
             sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
           >
-            <ChartsTimeline list={medicalRecordList} />
+            <ChartsTimeline
+              list={medicalRecordList}
+              openEdit={handleOpenEdit}
+              openDownload={handleOpenDownload}
+            />
           </Grid>
         </Grid>
+        {!!openEdit && <EditChartModal open={openEdit} setOpen={setOpenEdit} />}
+        {!!openDownload && (
+          <DownloadChartModal open={openDownload} setOpen={setOpenDownload} />
+        )}
       </>
     </BackgroundWrapper>
   );

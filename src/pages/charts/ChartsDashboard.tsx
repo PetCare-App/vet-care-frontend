@@ -52,7 +52,7 @@ export const ChartsDashboard = () => {
     <BackgroundWrapper>
       <>
         <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
-          <Header selectedOwner={selectedOwner} />
+          <Header />
           <Grid
             container
             sx={{

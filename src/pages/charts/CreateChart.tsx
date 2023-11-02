@@ -43,7 +43,6 @@ export const CreateChart = () => {
     setLoading(false);
   };
 
-  console.log('petData', petData);
   return (
     <BackgroundWrapper>
       <Grid

@@ -9,10 +9,14 @@ import {
   Typography,
   styled,
   Grid,
+  IconButton,
 } from '@mui/material';
 import { MedicalRecord } from '../../types/MedicalRecord';
 import { dateFormatter } from '../../utils/dateFormatter';
 import { grey } from '@mui/material/colors';
+import { Download, Edit, PictureAsPdfOutlined } from '@mui/icons-material';
+import React from 'react';
+import { useVetCareContext } from '../../context';
 
 const QontoStepIconRoot = styled('div')(({ theme }) => ({
   color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#eaeaf0',
@@ -48,28 +52,59 @@ const InfoItem = ({ label, data }: { label: string; data: string }) => {
   );
 };
 
-export const ChartsTimeline = ({ list }: { list: MedicalRecord[] }) => {
+export const ChartsTimeline = ({
+  list,
+  openEdit,
+  openDownload,
+}: {
+  list: MedicalRecord[];
+  openEdit: (data: MedicalRecord) => void;
+  openDownload: (data: MedicalRecord) => void;
+}) => {
+  const { setSelectedMedicalRecord } = useVetCareContext();
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper orientation="vertical">
         {list.map((step, index) => (
           <Step key={index} expanded sx={{ borderLeftColor: '#48b281' }}>
             <StepLabel StepIconComponent={QontoStepIcon}>
-              <Typography variant="h6">
-                {`Data do atendimento: ${dateFormatter(step.consultationDate)}`}
-              </Typography>
+              <Grid container flexDirection="row" alignItems="center" gap={2}>
+                <Typography variant="h6">
+                  {`Data do atendimento: ${dateFormatter(
+                    step.consultationDate,
+                  )}`}
+                </Typography>
+                <IconButton
+                  onClick={() => {
+                    openEdit(step);
+                    setSelectedMedicalRecord(step);
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    openDownload(step);
+                    setSelectedMedicalRecord(step);
+                  }}
+                >
+                  <PictureAsPdfOutlined />
+                </IconButton>
+              </Grid>
             </StepLabel>
             <StepContent sx={{ height: '250px', width: '300px' }}>
-              <InfoItem label={'Diagnóstico'} data={step.diagnosis} />
-              <InfoItem label={'Tratamento'} data={step.treatment} />
-              <InfoItem
-                label={'Prescrição'}
-                data={!!step.prescription ? step.prescription : '-'}
-              />
-              <InfoItem
-                label={'Notas adicionais'}
-                data={!!step.notes ? step.notes : '-'}
-              />
+              <Grid container gap={2}>
+                <InfoItem label={'Diagnóstico'} data={step.diagnosis} />
+                <InfoItem label={'Tratamento'} data={step.treatment} />
+                <InfoItem
+                  label={'Prescrição'}
+                  data={!!step.prescription ? step.prescription : '-'}
+                />
+                <InfoItem
+                  label={'Notas adicionais'}
+                  data={!!step.notes ? step.notes : '-'}
+                />
+              </Grid>
             </StepContent>
           </Step>
         ))}
