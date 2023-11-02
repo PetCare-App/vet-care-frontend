@@ -14,6 +14,7 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
 import { dateFormatter } from '../../utils/dateFormatter';
+import SnackbarComponent from '../../components/Snackbar';
 
 export const EditChartModal = ({
   open,
@@ -22,9 +23,12 @@ export const EditChartModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const navigate = useNavigate();
-  const { selectedMedicalRecord, selectedPet, updateMedicalRecord } =
-    useVetCareContext();
+  const {
+    selectedMedicalRecord,
+    selectedPet,
+    updateMedicalRecord,
+    snackbarOpen,
+  } = useVetCareContext();
 
   const [petData, setPetData] = useState(selectedMedicalRecord);
 
@@ -42,8 +46,7 @@ export const EditChartModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const { status } = await updateMedicalRecord(petData);
-    if (!!status)
-      navigate(`../../charts/${selectedPet.id}`, { relative: 'path' });
+    if (!!status) setOpen(false);
     setLoading(false);
   };
 
@@ -61,7 +64,7 @@ export const EditChartModal = ({
           justifyContent="flex-end"
           sx={{ width: '100%', height: '20px', margin: '20px 50px' }}
         >
-          <IconButton>
+          <IconButton onClick={() => setOpen(false)}>
             <ArrowBack />
           </IconButton>
         </Grid>

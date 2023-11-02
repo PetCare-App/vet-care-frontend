@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { MedicalRecord } from '../../types/MedicalRecord';
 import { EditChartModal } from './EditChartModal';
 import { DownloadChartModal } from './DownloadChartModal';
+import SnackbarComponent from '../../components/Snackbar';
 
 const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ export const ChartPage = () => {
     getMedicalRecordById,
     medicalRecordList,
     selectedMedicalRecord,
+    snackbarOpen,
   } = useVetCareContext();
 
   // useEffect(() => {
@@ -100,6 +102,7 @@ export const ChartPage = () => {
         {!!openDownload && (
           <DownloadChartModal open={openDownload} setOpen={setOpenDownload} />
         )}
+        {!!snackbarOpen && <SnackbarComponent />}
       </>
     </BackgroundWrapper>
   );
