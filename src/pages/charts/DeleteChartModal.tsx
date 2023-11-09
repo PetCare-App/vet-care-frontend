@@ -5,7 +5,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Grid,
 } from '@mui/material';
 import React, { Dispatch, SetStateAction } from 'react';
 import { useVetCareContext } from '../../context';
@@ -18,8 +17,7 @@ export const DeleteChartModal = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { deleteMedicalRecord, selectedMedicalRecord } = useVetCareContext();
-  console.log('selectedMedicalRecord', selectedMedicalRecord);
-  console.log('open', open);
+
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle id="alert-dialog-title">

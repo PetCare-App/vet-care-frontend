@@ -38,8 +38,7 @@ export const CreateChart = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const { status } = await createMedicalRecord(petData);
-    if (!!status)
-      navigate(`../../charts/${selectedPet.id}`, { relative: 'path' });
+    if (!!status) navigate(`../../${selectedPet.id}`, { relative: 'path' });
     setLoading(false);
   };
 

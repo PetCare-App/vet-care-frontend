@@ -40,7 +40,9 @@ export const EditChartModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     const { status } = await updateMedicalRecord(petData);
-    if (status == 200) setOpen(false);
+    if (status == 200) {
+      setOpen(false);
+    }
     setLoading(false);
   };
 

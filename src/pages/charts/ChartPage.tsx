@@ -1,14 +1,23 @@
-import { Breadcrumbs, Button, Grid, Link, Typography } from '@mui/material';
+/* eslint-disable no-extra-boolean-cast */
+import {
+  Breadcrumbs,
+  Button,
+  CircularProgress,
+  Grid,
+  Link,
+  Typography,
+} from '@mui/material';
 import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
 import { ChartsTimeline } from './ChartsTimeline';
 import { Owner } from '../../types/Owner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { EditChartModal } from './EditChartModal';
 import SnackbarComponent from '../../components/Snackbar';
 import { DeleteChartModal } from './DeleteChartModal';
+import { ErrorPage } from '../../components/ErrorPage';
 
 const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
   const navigate = useNavigate();
@@ -57,14 +66,25 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
 };
 
 export const ChartPage = () => {
-  const { selectedPet, selectedOwner, medicalRecordList, snackbarOpen } =
-    useVetCareContext();
+  const {
+    selectedPet,
+    selectedOwner,
+    medicalRecordList,
+    snackbarOpen,
+    getMedicalRecordById,
+  } = useVetCareContext();
 
-  // useEffect(() => {
-  //   getMedicalRecordById(selectedPet.id);
-  // }, []);
+  const handleGetList = async () => {
+    await getMedicalRecordById(selectedPet.id);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    handleGetList();
+  }, []);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -82,11 +102,28 @@ export const ChartPage = () => {
             container
             sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
           >
-            <ChartsTimeline
-              list={medicalRecordList}
-              openEdit={handleOpenEdit}
-              openDelete={handleOpenDelete}
-            />
+            {!!medicalRecordList.length && !loading ? (
+              <ChartsTimeline
+                list={medicalRecordList}
+                openEdit={handleOpenEdit}
+                openDelete={handleOpenDelete}
+              />
+            ) : !medicalRecordList.length && !loading ? (
+              <ErrorPage
+                label={
+                  'Não existem prontuários de atendimento para este paciente'
+                }
+              />
+            ) : (
+              <Grid
+                container
+                sx={{ height: '100%', width: '100%' }}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <CircularProgress size={60} />
+              </Grid>
+            )}
           </Grid>
         </Grid>
         {!!openEdit && <EditChartModal open={openEdit} setOpen={setOpenEdit} />}

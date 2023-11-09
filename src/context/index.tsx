@@ -7,7 +7,6 @@ import { Pet, petInit } from '../types/Pet';
 import { petService } from '../services/petService';
 import { MedicalRecord, medicalRecordInit } from '../types/MedicalRecord';
 import { medicalRecordService } from '../services/medicalRecordService';
-import html2canvas from 'html2canvas';
 
 export const VetCareContext = createContext({} as any);
 
@@ -21,33 +20,33 @@ export function ProviderContext({ children }: any) {
     useState(medicalRecordInit);
 
   const [medicalRecordList, setMedicalRecordList] = useState<MedicalRecord[]>([
-    {
-      id: 1,
-      consultationDate: '2023-10-31T00:00:00.000Z',
-      diagnosis: 'Perfeição',
-      treatment: 'Beijinhos',
-      prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-      notes: '',
-      patientId: 1,
-    },
-    {
-      id: 2,
-      consultationDate: '2023-10-1T00:00:00.000Z',
-      diagnosis: 'Perfeição',
-      treatment: 'Beijinhos',
-      prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-      notes: '',
-      patientId: 1,
-    },
-    {
-      id: 3,
-      consultationDate: '2023-10-21T00:00:00.000Z',
-      diagnosis: 'Perfeição',
-      treatment: 'Beijinhos',
-      prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-      notes: '',
-      patientId: 1,
-    },
+    // {
+    //   id: 1,
+    //   consultationDate: '2023-10-31T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
+    // {
+    //   id: 2,
+    //   consultationDate: '2023-10-1T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
+    // {
+    //   id: 3,
+    //   consultationDate: '2023-10-21T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
   ]);
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
@@ -198,6 +197,7 @@ export function ProviderContext({ children }: any) {
 
   const createMedicalRecord = async (data: MedicalRecord) => {
     try {
+      delete data.id;
       const response: AxiosResponse = await medicalRecordService.create(data);
 
       if (response.status == 201) {
@@ -246,6 +246,7 @@ export function ProviderContext({ children }: any) {
           type: 'success',
           message: 'Sucesso ao editar o prontuário! :)',
         });
+        getMedicalRecordById(data.patientId);
       }
       return response;
     } catch (error: any) {

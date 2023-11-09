@@ -7,7 +7,6 @@ import {
   Link,
   Typography,
 } from '@mui/material';
-import { Menu } from '../../components/Menu';
 import { useVetCareContext } from '../../context';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { Owner } from '../../types/Owner';
