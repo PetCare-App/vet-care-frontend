@@ -1,5 +1,7 @@
-import { Dialog } from '@mui/material';
+import { Dialog, Grid } from '@mui/material';
 import { Dispatch, SetStateAction } from 'react';
+import { DownloadChart } from './DownloadChart';
+import { useVetCareContext } from '../../context';
 
 export const DownloadChartModal = ({
   open,
@@ -8,5 +10,17 @@ export const DownloadChartModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  return <Dialog open={open} onClose={() => setOpen(false)}></Dialog>;
+  const { medicalRecordList } = useVetCareContext();
+
+  return (
+    <Dialog open={open} onClose={() => setOpen(false)} maxWidth={'xl'}>
+      <Grid
+        container
+        justifyContent="center"
+        sx={{ height: '600px', width: '1000px' }}
+      >
+        <DownloadChart chart={medicalRecordList[0]} />
+      </Grid>
+    </Dialog>
+  );
 };

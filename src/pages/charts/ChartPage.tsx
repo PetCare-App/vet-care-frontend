@@ -6,9 +6,7 @@ import { Pet } from '../../types/Pet';
 import { ChartsTimeline } from './ChartsTimeline';
 import { Owner } from '../../types/Owner';
 import { useState } from 'react';
-import { MedicalRecord } from '../../types/MedicalRecord';
 import { EditChartModal } from './EditChartModal';
-import { DownloadChartModal } from './DownloadChartModal';
 import SnackbarComponent from '../../components/Snackbar';
 import { DeleteChartModal } from './DeleteChartModal';
 
@@ -62,7 +60,6 @@ export const ChartPage = () => {
   const {
     selectedPet,
     selectedOwner,
-    getMedicalRecordById,
     medicalRecordList,
     selectedMedicalRecord,
     snackbarOpen,
@@ -106,9 +103,6 @@ export const ChartPage = () => {
           </Grid>
         </Grid>
         {!!openEdit && <EditChartModal open={openEdit} setOpen={setOpenEdit} />}
-        {!!openDownload && (
-          <DownloadChartModal open={openDownload} setOpen={setOpenDownload} />
-        )}
         {!!openDelete && (
           <DeleteChartModal open={openDownload} setOpen={setOpenDelete} />
         )}

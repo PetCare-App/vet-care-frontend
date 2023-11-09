@@ -7,6 +7,7 @@ import { Pet, petInit } from '../types/Pet';
 import { petService } from '../services/petService';
 import { MedicalRecord, medicalRecordInit } from '../types/MedicalRecord';
 import { medicalRecordService } from '../services/medicalRecordService';
+import html2canvas from 'html2canvas';
 
 export const VetCareContext = createContext({} as any);
 
@@ -258,6 +259,7 @@ export function ProviderContext({ children }: any) {
       return error?.response;
     }
   };
+
   const states = {
     owners,
     snackbarOpen,
