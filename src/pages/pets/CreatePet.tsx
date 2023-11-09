@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
 import { petInit } from '../../types/Pet';
 import { Menu } from '../../components/Menu';
+import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 
 export const CreatePet = () => {
   const { createPet, snackbarOpen, selectedOwner } = useVetCareContext();
@@ -60,11 +61,11 @@ export const CreatePet = () => {
   }, [petData]);
 
   return (
-    <Grid container flexDirection="row" flexWrap="nowrap" height="100%">
-      <Menu />
+    <BackgroundWrapper>
       <Grid
         sx={{
           pt: '30px',
+          width: '100%',
         }}
       >
         <Header
@@ -234,6 +235,7 @@ export const CreatePet = () => {
                 color="primary"
                 type="submit"
                 disabled={disableButton || !!loading}
+                sx={{ color: 'white' }}
               >
                 Enviar
               </Button>
@@ -242,6 +244,6 @@ export const CreatePet = () => {
         </form>
         {!!snackbarOpen.status && <SnackbarComponent />}
       </Grid>
-    </Grid>
+    </BackgroundWrapper>
   );
 };

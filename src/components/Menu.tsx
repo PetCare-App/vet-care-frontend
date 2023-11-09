@@ -1,7 +1,8 @@
 import { Avatar, Box, Grid, Link } from '@mui/material';
 import { useVetCareContext } from '../context';
 import VetCareLogo from './../assets/vetcare-logo.png';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const MenuItem = ({
   selectedMenuOption,
@@ -15,26 +16,38 @@ const MenuItem = ({
   item: { url: string; label: string };
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const { selectedOwner } = useVetCareContext();
+
+  const handleUrlChange = () => {
+    if (
+      location.pathname.includes('owners') &&
+      !location.pathname.includes('create')
+    )
+      navigate(`..${item.url}`, { relative: 'path' });
+    else navigate(`/owners/${selectedOwner.id}${item.url}`);
+  };
   return (
     <Box
+      key={`box-${index}`}
       sx={{
         width: '100%',
         backgroundColor: `${
-          selectedMenuOption == index ? '#8EAEC4' : '#EAEAEA'
+          selectedMenuOption == index ? '#48b281' : '#EAEAEA'
         }`,
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: '#A9A9A9',
+          backgroundColor: '#48b281',
         },
       }}
       onClick={() => {
         setSelectedMenuOption(index);
-        navigate(`..${item.url}`, { relative: 'path' });
+        handleUrlChange();
       }}
     >
       <Link
-        key={index}
+        key={`link-${index}`}
         component="button"
         variant="h6"
         sx={{
@@ -45,7 +58,7 @@ const MenuItem = ({
         underline="none"
         onClick={() => {
           setSelectedMenuOption(index);
-          navigate(`..${item.url}`, { relative: 'path' });
+          handleUrlChange();
         }}
       >
         {item.label}
@@ -55,14 +68,16 @@ const MenuItem = ({
 };
 
 export const Menu = () => {
+  const location = useLocation();
+
   const { selectedMenuOption, setSelectedMenuOption } = useVetCareContext();
   const menuList: { url: string; label: string }[] = [
     {
-      url: '/pets',
+      url: `/pets`,
       label: 'Pets',
     },
     {
-      url: '/charts',
+      url: `/charts`,
       label: 'Prontuários',
     },
     {
@@ -83,6 +98,12 @@ export const Menu = () => {
     },
   ];
 
+  useEffect(() => {
+    setSelectedMenuOption(
+      menuList.findIndex((item) => location.pathname.includes(item.url)),
+    );
+  }, []);
+
   return (
     <Grid
       container
@@ -92,29 +113,37 @@ export const Menu = () => {
         padding: '0px',
         justifyContent: 'center',
         alignContent: 'flex-start',
-        height: '100%',
+        height: '100vh',
       }}
     >
       <Avatar
         alt="vetcare logo"
         src={VetCareLogo}
-        sx={{ width: 150, height: 150, marginTop: '50px' }}
-      />
-      <Grid
-        container
         sx={{
-          width: '100%',
+          width: 200,
+          height: 200,
           marginTop: '50px',
+          '> img': { objectFit: 'fill' },
         }}
-      >
-        {menuList.map((item, index) => (
-          <MenuItem
-            selectedMenuOption={selectedMenuOption}
-            setSelectedMenuOption={setSelectedMenuOption}
-            index={index}
-            item={item}
-          />
-        ))}
+      />
+      <Grid sx={{ height: 'calc(100% + 100px)', background: '#EAEAEA' }}>
+        <Grid
+          container
+          sx={{
+            width: '100%',
+            marginTop: '50px',
+          }}
+        >
+          {menuList.map((item, index) => (
+            <MenuItem
+              key={Math.random()}
+              selectedMenuOption={selectedMenuOption}
+              setSelectedMenuOption={setSelectedMenuOption}
+              index={index}
+              item={item}
+            />
+          ))}
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -23,6 +23,7 @@ import { dateFormatter } from '../../utils/dateFormatter';
 import { Owner } from '../../types/Owner';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SnackbarComponent from '../../components/Snackbar';
+import { maritalStatus } from '../../utils/normalizers';
 
 const EditForm = ({
   setCurrentOwner,
@@ -172,7 +173,7 @@ const OwnerData = ({ selectedOwner }: { selectedOwner: Owner }) => {
           <InfoItem
             variant="h6"
             label={'Estado Civil'}
-            data={selectedOwner.maritalStatus}
+            data={maritalStatus[selectedOwner.maritalStatus]}
           />
         </Grid>
         <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>

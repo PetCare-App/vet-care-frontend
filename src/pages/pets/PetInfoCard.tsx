@@ -17,12 +17,13 @@ import Dog from './../../assets/dog.png';
 import Cat from './../../assets/cat.png';
 import { Pet } from '../../types/Pet';
 import { dateFormatter } from '../../utils/dateFormatter';
+import { genders } from '../../utils/normalizers';
+import { useNavigate } from 'react-router-dom';
+import { useVetCareContext } from '../../context';
 
-export const PetInfoCard = ({ pet }: { pet: Pet }) => {
-  const gender: { [key: string]: string } = {
-    male: 'Macho',
-    female: 'Fêmea',
-  };
+export const PetInfoCard = ({ pet, url }: { pet: Pet; url: string }) => {
+  const { setSelectedPet } = useVetCareContext();
+  const navigate = useNavigate();
   return (
     <Card
       variant="outlined"
@@ -63,7 +64,12 @@ export const PetInfoCard = ({ pet }: { pet: Pet }) => {
                 padding: '0px',
               }}
             >
-              <IconButton href={`/pets/${pet.id}`}>
+              <IconButton
+                onClick={() => {
+                  navigate(`../../..${url}`, { relative: 'path' });
+                  setSelectedPet(pet);
+                }}
+              >
                 <ReadMoreIcon sx={{ fontSize: '35px' }} />
               </IconButton>
             </CardActions>
@@ -87,7 +93,7 @@ export const PetInfoCard = ({ pet }: { pet: Pet }) => {
             }`}
           </Typography>
           <Typography sx={{ fontSize: 20 }} color="text.primary">
-            {`Gênero: ${gender[pet?.sex]}`}
+            {`Gênero: ${genders[pet?.sex]}`}
           </Typography>
           <Typography sx={{ fontSize: 20 }} color="text.primary">
             {`Peso: ${pet?.weight} Kgs`}
