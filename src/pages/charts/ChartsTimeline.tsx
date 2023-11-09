@@ -65,13 +65,14 @@ export const ChartsTimeline = ({
 }: {
   list: MedicalRecord[];
   openEdit: (data: MedicalRecord) => void;
-  openDownload: (data: MedicalRecord) => void;
   openDelete: (data: MedicalRecord) => void;
 }) => {
   const { setSelectedMedicalRecord, selectedMedicalRecord, selectedPet } =
     useVetCareContext();
 
   const [downloadChart, setDownloadChart] = useState(false);
+  const [loadingDownload, setLoadingDownload] = useState(false);
+
   const generateAndDownloadImage = async () => {
     const jsxElement = (
       <DownloadChart chart={selectedMedicalRecord} selectedPet={selectedPet} />
@@ -101,7 +102,6 @@ export const ChartsTimeline = ({
     if (!!downloadChart) generateAndDownloadImage();
   }, [downloadChart]);
 
-  const [loadingDownload, setLoadingDownload] = useState(false);
   return (
     <Box sx={{ width: '100%' }}>
       <Stepper orientation="vertical">

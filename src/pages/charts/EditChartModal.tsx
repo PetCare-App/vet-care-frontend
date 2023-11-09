@@ -11,10 +11,8 @@ import {
 } from '@mui/material';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { useVetCareContext } from '../../context';
-import { useNavigate } from 'react-router-dom';
 import { ArrowBack } from '@mui/icons-material';
 import { dateFormatter } from '../../utils/dateFormatter';
-import SnackbarComponent from '../../components/Snackbar';
 
 export const EditChartModal = ({
   open,
@@ -23,12 +21,8 @@ export const EditChartModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const {
-    selectedMedicalRecord,
-    selectedPet,
-    updateMedicalRecord,
-    snackbarOpen,
-  } = useVetCareContext();
+  const { selectedMedicalRecord, selectedPet, updateMedicalRecord } =
+    useVetCareContext();
 
   const [petData, setPetData] = useState(selectedMedicalRecord);
 
@@ -49,8 +43,6 @@ export const EditChartModal = ({
     if (status == 200) setOpen(false);
     setLoading(false);
   };
-
-  console.log('petData', petData);
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth={'xl'}>

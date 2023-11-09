@@ -14,4 +14,7 @@ export const medicalRecordService = {
   update: async (data: MedicalRecord) => {
     return await api.patch(`/patients-medical-records/${data.id}`, data);
   },
+  delete: async (data: MedicalRecord) => {
+    return await api.delete(`/patients-medical-records/${data.id}`);
+  },
 };

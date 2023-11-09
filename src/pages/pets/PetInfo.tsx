@@ -330,8 +330,6 @@ const PageContent = () => {
   const { selectedPet, snackbarOpen } = useVetCareContext();
   const [isEdit, setIsEdit] = useState(false);
 
-  console.log('isEdit', isEdit);
-
   return (
     <Grid
       container

@@ -25,8 +25,6 @@ export const DownloadChart = ({
   chart: MedicalRecord;
   selectedPet: Pet;
 }) => {
-  console.log('selectedPet', selectedPet);
-
   return (
     <Grid sx={{ padding: '40px 60px' }} id="medicalChart">
       <Grid container justifyContent="center">

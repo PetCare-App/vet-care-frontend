@@ -1,6 +1,13 @@
-import { Dialog } from '@mui/material';
-import { Dispatch, SetStateAction } from 'react';
-import { DownloadChart } from './DownloadChart';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+} from '@mui/material';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useVetCareContext } from '../../context';
 
 export const DeleteChartModal = ({
@@ -10,6 +17,31 @@ export const DeleteChartModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { medicalRecordList } = useVetCareContext();
-  return <Dialog open={open} onClose={() => setOpen(false)}></Dialog>;
+  const { deleteMedicalRecord, selectedMedicalRecord } = useVetCareContext();
+  console.log('selectedMedicalRecord', selectedMedicalRecord);
+  console.log('open', open);
+  return (
+    <Dialog open={open} onClose={() => setOpen(false)}>
+      <DialogTitle id="alert-dialog-title">
+        Você tem certeza que gostaria de deletar este prontuário?
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Esta ação não poderá ser revertida!
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => setOpen(false)}>Voltar</Button>
+        <Button
+          onClick={() => {
+            deleteMedicalRecord(selectedMedicalRecord);
+            setOpen(false);
+          }}
+          autoFocus
+        >
+          Prosseguir
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };

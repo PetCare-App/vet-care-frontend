@@ -57,29 +57,17 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
 };
 
 export const ChartPage = () => {
-  const {
-    selectedPet,
-    selectedOwner,
-    medicalRecordList,
-    selectedMedicalRecord,
-    snackbarOpen,
-  } = useVetCareContext();
+  const { selectedPet, selectedOwner, medicalRecordList, snackbarOpen } =
+    useVetCareContext();
 
   // useEffect(() => {
   //   getMedicalRecordById(selectedPet.id);
   // }, []);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openDownload, setOpenDownload] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-
-  console.log('selectedMedicalRecord', selectedMedicalRecord);
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
-  };
-
-  const handleOpenDownload = () => {
-    setOpenDownload(true);
   };
 
   const handleOpenDelete = () => {
@@ -97,14 +85,13 @@ export const ChartPage = () => {
             <ChartsTimeline
               list={medicalRecordList}
               openEdit={handleOpenEdit}
-              openDownload={handleOpenDownload}
               openDelete={handleOpenDelete}
             />
           </Grid>
         </Grid>
         {!!openEdit && <EditChartModal open={openEdit} setOpen={setOpenEdit} />}
         {!!openDelete && (
-          <DeleteChartModal open={openDownload} setOpen={setOpenDelete} />
+          <DeleteChartModal open={openDelete} setOpen={setOpenDelete} />
         )}
         {!!snackbarOpen && <SnackbarComponent />}
       </>

@@ -260,6 +260,30 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  const deleteMedicalRecord = async (data: MedicalRecord) => {
+    try {
+      const response: AxiosResponse = await medicalRecordService.delete(data);
+
+      // if (response.status == 200) {
+      setSnackbarOpen({
+        status: true,
+        type: 'success',
+        message: 'Sucesso ao deletar o prontuário! :)',
+      });
+      // }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos deletar o prontuário, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
@@ -286,6 +310,7 @@ export function ProviderContext({ children }: any) {
     createMedicalRecord,
     updateMedicalRecord,
     getMedicalRecordById,
+    deleteMedicalRecord,
   };
 
   return (
