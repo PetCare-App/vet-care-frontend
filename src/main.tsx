@@ -12,6 +12,9 @@ import { PetInfo } from './pages/pets/PetInfo';
 import { ThemeOptions, ThemeProvider, createTheme } from '@mui/material/styles';
 import { ChartPage } from './pages/charts/ChartPage';
 import { CreateChart } from './pages/charts/CreateChart';
+import { VaccinesDashboard } from './pages/vaccines/VaccinesDashboard';
+import { VaccinesPage } from './pages/vaccines/VaccinesPage';
+import { CreateVaccine } from './pages/vaccines/CreateVaccine';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -71,6 +74,18 @@ const router = createBrowserRouter([
   {
     path: '/charts/:id/create',
     element: <CreateChart />,
+  },
+  {
+    path: '/owners/:id/vaccines',
+    element: <VaccinesDashboard />,
+  },
+  {
+    path: '/vaccines/:id',
+    element: <VaccinesPage />,
+  },
+  {
+    path: '/vaccines/:id/create',
+    element: <CreateVaccine />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(

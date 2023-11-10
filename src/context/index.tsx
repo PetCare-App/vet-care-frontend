@@ -7,6 +7,8 @@ import { Pet, petInit } from '../types/Pet';
 import { petService } from '../services/petService';
 import { MedicalRecord, medicalRecordInit } from '../types/MedicalRecord';
 import { medicalRecordService } from '../services/medicalRecordService';
+import { Vaccine, vaccineInit } from '../types/Vaccine';
+import { vaccineService } from '../services/vaccineService';
 
 export const VetCareContext = createContext({} as any);
 
@@ -48,6 +50,30 @@ export function ProviderContext({ children }: any) {
     //   patientId: 1,
     // },
   ]);
+
+  const [selectedVaccine, setSelectedVaccine] = useState(vaccineInit);
+  const [vaccineList, setVaccineList] = useState<Vaccine[]>([
+    vaccineInit,
+    // {
+    //   id: 2,
+    //   consultationDate: '2023-10-1T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
+    // {
+    //   id: 3,
+    //   consultationDate: '2023-10-21T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
+  ]);
+
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
     type: string;
@@ -285,6 +311,93 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  //VACCINES
+  const createVaccine = async (data: Vaccine) => {
+    try {
+      delete data.id;
+      const response: AxiosResponse = await vaccineService.create(data);
+
+      if (response.status == 201) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao cadastrar a vacina! :)',
+        });
+      }
+      return response;
+    } catch (error) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos cadastrar a vacina, volte mais tarde! :(',
+      });
+      console.log('error', error);
+    }
+  };
+
+  const getVaccineById = async (id: string) => {
+    try {
+      const response: any = await vaccineService.getList();
+      setVaccineList(response.data);
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos buscar esta vacina, tente novamente! :(',
+      });
+      console.log('error', error);
+      return error.response;
+    }
+  };
+
+  const updateVaccine = async (data: Vaccine) => {
+    try {
+      const response: AxiosResponse = await vaccineService.update(data);
+
+      if (response.status == 200) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao editar a vacina! :)',
+        });
+        // getVaccineById(data?.patient);
+      }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos editar a vacina, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
+  const deleteVaccine = async (data: Vaccine) => {
+    try {
+      const response: AxiosResponse = await vaccineService.delete(data);
+
+      // if (response.status == 200) {
+      setSnackbarOpen({
+        status: true,
+        type: 'success',
+        message: 'Sucesso ao deletar a vacina! :)',
+      });
+      // }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Nós não conseguimos deletar a vacina, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
@@ -293,6 +406,8 @@ export function ProviderContext({ children }: any) {
     selectedPet,
     selectedMedicalRecord,
     medicalRecordList,
+    selectedVaccine,
+    vaccineList,
   };
 
   const actions = {
@@ -312,6 +427,11 @@ export function ProviderContext({ children }: any) {
     updateMedicalRecord,
     getMedicalRecordById,
     deleteMedicalRecord,
+    setSelectedVaccine,
+    createVaccine,
+    getVaccineById,
+    updateVaccine,
+    deleteVaccine,
   };
 
   return (
