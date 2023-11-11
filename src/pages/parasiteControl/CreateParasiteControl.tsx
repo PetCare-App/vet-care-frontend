@@ -16,14 +16,14 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
 import { BackgroundWrapper } from '../../components/BackgroundWrapper';
-import { medicalRecordInit } from '../../types/MedicalRecord';
+import { parasiteControlInit } from '../../types/ParasiteControl';
 
-export const CreateChart = () => {
-  const { createMedicalRecord, snackbarOpen, selectedOwner, selectedPet } =
+export const CreateParasiteControl = () => {
+  const { createParasiteControl, snackbarOpen, selectedOwner, selectedPet } =
     useVetCareContext();
   const navigate = useNavigate();
 
-  const [petData, setPetData] = useState(medicalRecordInit);
+  const [petData, setPetData] = useState(parasiteControlInit);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e: any) => {
@@ -37,8 +37,7 @@ export const CreateChart = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     petData.patientId = selectedPet.id;
-
-    const { status } = await createMedicalRecord(petData);
+    const { status } = await createParasiteControl(petData);
     if (!!status) navigate(`../../${selectedPet.id}`, { relative: 'path' });
     setLoading(false);
   };
@@ -57,21 +56,21 @@ export const CreateChart = () => {
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/owners/${selectedOwner.id}/charts`}
+                href={`/owners/${selectedOwner.id}/parasite-control`}
               >
-                Prontuários
+                Controle Parasitário
               </Link>
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/charts/${selectedPet.id}`}
+                href={`/parasite-control/${selectedPet.id}`}
               >
                 {selectedPet.name}
               </Link>
               <Typography color="text.primary">Aqui</Typography>
             </Breadcrumbs>
           }
-          title={'Formulário de atendimento'}
+          title={'Registro de Controle Parasitário'}
         />
         <Grid container justifyContent="center" sx={{ mt: '100px' }}>
           <form
@@ -92,9 +91,9 @@ export const CreateChart = () => {
                   sx={{ width: '400px' }}
                 />
                 <Grid item sx={{ marginTop: '-20px' }}>
-                  <InputLabel>Data da consulta *</InputLabel>
+                  <InputLabel>Data da aplicação *</InputLabel>
                   <TextField
-                    name="consultationDate"
+                    name="controlDate"
                     type="date"
                     onChange={handleChange}
                     sx={{ width: '400px' }}
@@ -103,37 +102,10 @@ export const CreateChart = () => {
               </Grid>
               <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>
                 <TextField
-                  label="Diagnóstico *"
-                  name="diagnosis"
-                  value={petData.diagnosis}
+                  label="Nome *"
+                  name="controlType"
+                  value={petData.controlType}
                   onChange={handleChange}
-                  sx={{ width: '400px' }}
-                />
-                <TextField
-                  label="Tratamento *"
-                  name="treatment"
-                  value={petData.treatment}
-                  onChange={handleChange}
-                  sx={{ width: '400px' }}
-                />
-              </Grid>
-              <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>
-                <TextField
-                  label="Prescrição"
-                  name="prescription"
-                  value={petData.prescription}
-                  onChange={handleChange}
-                  multiline
-                  rows={4}
-                  sx={{ width: '400px' }}
-                />
-                <TextField
-                  label="Notas Adicionais"
-                  name="notes"
-                  value={petData.notes}
-                  onChange={handleChange}
-                  multiline
-                  rows={4}
                   sx={{ width: '400px' }}
                 />
               </Grid>

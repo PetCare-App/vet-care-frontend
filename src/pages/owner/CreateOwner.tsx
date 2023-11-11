@@ -241,7 +241,7 @@ export const CreateOwner = () => {
               variant="contained"
               color="primary"
               type="submit"
-              disabled={disableButton || !!loading}
+              disabled={!!loading}
               sx={{ color: 'white' }}
             >
               Enviar

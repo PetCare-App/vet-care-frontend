@@ -39,7 +39,7 @@ const Header = () => {
   );
 };
 
-export const ChartsDashboard = () => {
+export const ParasiteControlDashboard = () => {
   const location = useLocation();
 
   const { selectedOwner, getOwnerById } = useVetCareContext();
@@ -64,7 +64,11 @@ export const ChartsDashboard = () => {
             }}
           >
             {selectedOwner.patients.map((pet: Pet) => (
-              <PetInfoCard pet={pet} key={pet.id} url={`/charts/${pet.id}`} />
+              <PetInfoCard
+                pet={pet}
+                key={pet.id}
+                url={`/parasite-control/${pet.id}`}
+              />
             ))}
           </Grid>
         </Grid>

@@ -55,6 +55,7 @@ export const VaccinesDashboard = () => {
           <Header />
           <Grid
             container
+            gap={5}
             sx={{
               width: '100%',
               height: 'calc(100% - 250px)',

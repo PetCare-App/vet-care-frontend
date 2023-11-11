@@ -3,6 +3,7 @@ import { api } from './index';
 
 export const petService = {
   create: async (data: Pet) => {
+    console.log('data', data);
     return await api.post(`/patients`, data);
   },
   getList: async () => {

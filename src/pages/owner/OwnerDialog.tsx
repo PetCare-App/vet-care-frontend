@@ -315,7 +315,7 @@ export const OwnerDialog = ({
                   variant="contained"
                   color="primary"
                   type="submit"
-                  disabled={disableButton || !!loading}
+                  disabled={!!loading}
                   onClick={() => {
                     handleSubmit();
                     setLoading(false);
