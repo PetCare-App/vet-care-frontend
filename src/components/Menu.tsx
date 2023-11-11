@@ -85,7 +85,7 @@ export const Menu = () => {
       label: 'Vacinas',
     },
     {
-      url: '/pest-control',
+      url: '/parasite-control',
       label: 'Controle Parasitário',
     },
     {

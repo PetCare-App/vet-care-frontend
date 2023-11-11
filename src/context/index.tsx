@@ -9,6 +9,8 @@ import { MedicalRecord, medicalRecordInit } from '../types/MedicalRecord';
 import { medicalRecordService } from '../services/medicalRecordService';
 import { Vaccine, vaccineInit } from '../types/Vaccine';
 import { vaccineService } from '../services/vaccineService';
+import { ParasiteControl, parasiteControlInit } from '../types/ParasiteControl';
+import { parasiteControlService } from '../services/parasiteControlService';
 
 export const VetCareContext = createContext({} as any);
 
@@ -54,6 +56,32 @@ export function ProviderContext({ children }: any) {
   const [selectedVaccine, setSelectedVaccine] = useState(vaccineInit);
   const [vaccineList, setVaccineList] = useState<Vaccine[]>([
     vaccineInit,
+    // {
+    //   id: 2,
+    //   consultationDate: '2023-10-1T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
+    // {
+    //   id: 3,
+    //   consultationDate: '2023-10-21T00:00:00.000Z',
+    //   diagnosis: 'Perfeição',
+    //   treatment: 'Beijinhos',
+    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
+    //   notes: '',
+    //   patientId: 1,
+    // },
+  ]);
+
+  const [selectedParasiteControl, setSelectedParasiteControl] =
+    useState(parasiteControlInit);
+  const [parasiteControlList, setParasiteControlList] = useState<
+    ParasiteControl[]
+  >([
+    parasiteControlInit,
     // {
     //   id: 2,
     //   consultationDate: '2023-10-1T00:00:00.000Z',
@@ -160,6 +188,7 @@ export function ProviderContext({ children }: any) {
 
   const createPet = async (data: Pet) => {
     try {
+      delete data.id;
       const response: AxiosResponse = await petService.create(data);
 
       if (response.status == 201) {
@@ -398,6 +427,98 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  //PARASITE CONTROL
+  const createParasiteControl = async (data: ParasiteControl) => {
+    try {
+      delete data.id;
+      const response: AxiosResponse = await parasiteControlService.create(data);
+
+      if (response.status == 201) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message:
+            'Sucesso ao cadastrar o registro de controle parasitário! :)',
+        });
+      }
+      return response;
+    } catch (error) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos cadastrar o registro de controle parasitário, volte mais tarde! :(',
+      });
+      console.log('error', error);
+    }
+  };
+
+  const getParasiteControlById = async (id: string) => {
+    try {
+      const response: any = await parasiteControlService.getList();
+      setParasiteControlList(response.data);
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos buscar este registro de controle parasitário, tente novamente! :(',
+      });
+      console.log('error', error);
+      return error.response;
+    }
+  };
+
+  const updateParasiteControl = async (data: ParasiteControl) => {
+    try {
+      const response: AxiosResponse = await parasiteControlService.update(data);
+
+      if (response.status == 200) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao editar o registro de controle parasitário! :)',
+        });
+        // getVaccineById(data?.patient);
+      }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos editar o registro de controle parasitário, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
+  const deleteParasiteControl = async (data: ParasiteControl) => {
+    try {
+      const response: AxiosResponse = await parasiteControlService.delete(data);
+
+      // if (response.status == 200) {
+      setSnackbarOpen({
+        status: true,
+        type: 'success',
+        message: 'Sucesso ao deletar o registro de controle parasitário! :)',
+      });
+      // }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos deletar o registro de controle parasitário, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
@@ -408,6 +529,8 @@ export function ProviderContext({ children }: any) {
     medicalRecordList,
     selectedVaccine,
     vaccineList,
+    selectedParasiteControl,
+    parasiteControlList,
   };
 
   const actions = {
@@ -432,6 +555,11 @@ export function ProviderContext({ children }: any) {
     getVaccineById,
     updateVaccine,
     deleteVaccine,
+    createParasiteControl,
+    getParasiteControlById,
+    updateParasiteControl,
+    deleteParasiteControl,
+    setSelectedParasiteControl,
   };
 
   return (

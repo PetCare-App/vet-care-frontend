@@ -14,17 +14,17 @@ import { useVetCareContext } from '../../context';
 import { ArrowBack } from '@mui/icons-material';
 import { dateFormatter } from '../../utils/dateFormatter';
 
-export const EditChartModal = ({
+export const EditParasiteControlModal = ({
   open,
   setOpen,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { selectedMedicalRecord, selectedPet, updateMedicalRecord } =
+  const { selectedParasiteControl, selectedPet, updateParasiteControl } =
     useVetCareContext();
 
-  const [petData, setPetData] = useState(selectedMedicalRecord);
+  const [petData, setPetData] = useState(selectedParasiteControl);
 
   const [loading, setLoading] = useState(false);
 
@@ -38,9 +38,8 @@ export const EditChartModal = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    petData.patientId = selectedPet.id;
 
-    const { status } = await updateMedicalRecord(petData);
+    const { status } = await updateParasiteControl(petData);
     if (status == 200) {
       setOpen(false);
     }
@@ -64,7 +63,7 @@ export const EditChartModal = ({
           </IconButton>
         </Grid>
         <Grid container justifyContent="center">
-          <Typography variant="h4">{`Prontuário de ${selectedPet.name}`}</Typography>
+          <Typography variant="h4">{`Registro de ${selectedPet.name}`}</Typography>
         </Grid>
         <form
           onSubmit={(e) => {
@@ -78,6 +77,7 @@ export const EditChartModal = ({
             gridTemplateRows={'repeat(1fr)'}
             gap={5}
             width="850px"
+            mt={'30px'}
           >
             <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>
               <TextField
@@ -88,11 +88,11 @@ export const EditChartModal = ({
                 sx={{ width: '400px' }}
               />
               <Grid item sx={{ marginTop: '-20px' }}>
-                <InputLabel>Data da consulta *</InputLabel>
+                <InputLabel>Data da aplicação *</InputLabel>
                 <TextField
-                  name="consultationDate"
+                  name="controlDate"
                   disabled
-                  value={dateFormatter(selectedMedicalRecord.consultationDate)}
+                  value={dateFormatter(petData.controlDate)}
                   onChange={handleChange}
                   sx={{ width: '400px' }}
                 />
@@ -100,37 +100,10 @@ export const EditChartModal = ({
             </Grid>
             <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>
               <TextField
-                label="Diagnóstico *"
-                name="diagnosis"
-                value={petData.diagnosis}
+                label="Nome *"
+                name="controlType"
+                value={petData.controlType}
                 onChange={handleChange}
-                sx={{ width: '400px' }}
-              />
-              <TextField
-                label="Tratamento *"
-                name="treatment"
-                value={petData.treatment}
-                onChange={handleChange}
-                sx={{ width: '400px' }}
-              />
-            </Grid>
-            <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>
-              <TextField
-                label="Prescrição"
-                name="prescription"
-                value={petData.prescription}
-                onChange={handleChange}
-                multiline
-                rows={4}
-                sx={{ width: '400px' }}
-              />
-              <TextField
-                label="Notas Adicionais"
-                name="notes"
-                value={petData.notes}
-                onChange={handleChange}
-                multiline
-                rows={4}
                 sx={{ width: '400px' }}
               />
             </Grid>

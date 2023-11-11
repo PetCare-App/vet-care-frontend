@@ -25,7 +25,6 @@ export const CreateVaccine = () => {
 
   const [petData, setPetData] = useState(vaccineInit);
   const [loading, setLoading] = useState(false);
-  const [disableButton, setDisableButton] = useState(false);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -143,7 +142,7 @@ export const CreateVaccine = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={disableButton || !!loading}
+                disabled={!!loading}
                 sx={{ color: 'white' }}
               >
                 Enviar

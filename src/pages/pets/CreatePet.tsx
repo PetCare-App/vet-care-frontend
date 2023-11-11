@@ -20,7 +20,6 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
 import { petInit } from '../../types/Pet';
-import { Menu } from '../../components/Menu';
 import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 
 export const CreatePet = () => {
@@ -29,7 +28,6 @@ export const CreatePet = () => {
 
   const [petData, setPetData] = useState(petInit);
   const [loading, setLoading] = useState(false);
-  const [disableButton, setDisableButton] = useState(false);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -41,8 +39,10 @@ export const CreatePet = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    petData.ownerId = selectedOwner.id;
+
     const { status } = await createPet(petData);
-    if (!!status) navigate('../pets', { relative: 'path' });
+    if (!!status) navigate('..', { relative: 'path' });
     setLoading(false);
   };
 
@@ -234,7 +234,7 @@ export const CreatePet = () => {
                 variant="contained"
                 color="primary"
                 type="submit"
-                disabled={disableButton || !!loading}
+                disabled={!!loading}
                 sx={{ color: 'white' }}
               >
                 Enviar

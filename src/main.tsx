@@ -15,6 +15,9 @@ import { CreateChart } from './pages/charts/CreateChart';
 import { VaccinesDashboard } from './pages/vaccines/VaccinesDashboard';
 import { VaccinesPage } from './pages/vaccines/VaccinesPage';
 import { CreateVaccine } from './pages/vaccines/CreateVaccine';
+import { CreateParasiteControl } from './pages/parasiteControl/CreateParasiteControl';
+import { ParasiteControlPage } from './pages/parasiteControl/ParasiteControlPage';
+import { ParasiteControlDashboard } from './pages/parasiteControl/ParasiteControlDashboard';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -30,7 +33,7 @@ const themeOptions: ThemeOptions = {
 
 const theme = createTheme(themeOptions);
 
-const router = createBrowserRouter([
+const generalUrls = [
   {
     path: '/',
     element: <Home />,
@@ -39,6 +42,9 @@ const router = createBrowserRouter([
     path: '/home',
     element: <Home />,
   },
+];
+
+const ownersUrls = [
   {
     path: '/owners',
     element: <OwnerSearch />,
@@ -47,6 +53,9 @@ const router = createBrowserRouter([
     path: '/owners/create',
     element: <CreateOwner />,
   },
+];
+
+const petsUrls = [
   {
     path: '/owners/:id/pets',
     element: <PetsDashboard />,
@@ -63,6 +72,9 @@ const router = createBrowserRouter([
     path: '/pets/:id/update',
     element: <PetInfo />,
   },
+];
+
+const chartsUrls = [
   {
     path: '/owners/:id/charts',
     element: <ChartsDashboard />,
@@ -75,6 +87,9 @@ const router = createBrowserRouter([
     path: '/charts/:id/create',
     element: <CreateChart />,
   },
+];
+
+const vaccinesUrls = [
   {
     path: '/owners/:id/vaccines',
     element: <VaccinesDashboard />,
@@ -87,6 +102,30 @@ const router = createBrowserRouter([
     path: '/vaccines/:id/create',
     element: <CreateVaccine />,
   },
+];
+
+const parasiteControlUrls = [
+  {
+    path: '/owners/:id/parasite-control',
+    element: <ParasiteControlDashboard />,
+  },
+  {
+    path: '/parasite-control/:id',
+    element: <ParasiteControlPage />,
+  },
+  {
+    path: '/parasite-control/:id/create',
+    element: <CreateParasiteControl />,
+  },
+];
+
+const router = createBrowserRouter([
+  ...generalUrls,
+  ...ownersUrls,
+  ...petsUrls,
+  ...chartsUrls,
+  ...vaccinesUrls,
+  ...parasiteControlUrls,
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
