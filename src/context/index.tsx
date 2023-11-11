@@ -11,6 +11,8 @@ import { Vaccine, vaccineInit } from '../types/Vaccine';
 import { vaccineService } from '../services/vaccineService';
 import { ParasiteControl, parasiteControlInit } from '../types/ParasiteControl';
 import { parasiteControlService } from '../services/parasiteControlService';
+import { Hygiene, hygieneInit } from '../types/Hygiene';
+import { hygieneService } from '../services/hygieneService';
 
 export const VetCareContext = createContext({} as any);
 
@@ -24,83 +26,22 @@ export function ProviderContext({ children }: any) {
     useState(medicalRecordInit);
 
   const [medicalRecordList, setMedicalRecordList] = useState<MedicalRecord[]>([
-    // {
-    //   id: 1,
-    //   consultationDate: '2023-10-31T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
-    // {
-    //   id: 2,
-    //   consultationDate: '2023-10-1T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
-    // {
-    //   id: 3,
-    //   consultationDate: '2023-10-21T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
+    medicalRecordInit,
   ]);
 
   const [selectedVaccine, setSelectedVaccine] = useState(vaccineInit);
-  const [vaccineList, setVaccineList] = useState<Vaccine[]>([
-    vaccineInit,
-    // {
-    //   id: 2,
-    //   consultationDate: '2023-10-1T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
-    // {
-    //   id: 3,
-    //   consultationDate: '2023-10-21T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
-  ]);
+  const [vaccineList, setVaccineList] = useState<Vaccine[]>([vaccineInit]);
 
   const [selectedParasiteControl, setSelectedParasiteControl] =
     useState(parasiteControlInit);
   const [parasiteControlList, setParasiteControlList] = useState<
     ParasiteControl[]
   >([
-    parasiteControlInit,
-    // {
-    //   id: 2,
-    //   consultationDate: '2023-10-1T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
-    // {
-    //   id: 3,
-    //   consultationDate: '2023-10-21T00:00:00.000Z',
-    //   diagnosis: 'Perfeição',
-    //   treatment: 'Beijinhos',
-    //   prescription: 'Dar muitos beijinhos no Salem todo dia de manhã',
-    //   notes: '',
-    //   patientId: 1,
-    // },
+    // parasiteControlInit,
   ]);
+
+  const [selectedHygiene, setSelectedHygiene] = useState(hygieneInit);
+  const [hygieneList, setHygieneList] = useState<Hygiene[]>([hygieneInit]);
 
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
@@ -519,6 +460,97 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  // HYGIENE
+  const createHygiene = async (data: Hygiene) => {
+    try {
+      delete data.id;
+      const response: AxiosResponse = await hygieneService.create(data);
+
+      if (response.status == 201) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao cadastrar o registro de higiene! :)',
+        });
+      }
+      return response;
+    } catch (error) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos cadastrar o registro de higiene, volte mais tarde! :(',
+      });
+      console.log('error', error);
+    }
+  };
+
+  const getHygieneById = async (id: string) => {
+    try {
+      const response: any = await hygieneService.getList();
+      setHygieneList(response.data);
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos buscar este registro de higiene, tente novamente! :(',
+      });
+      console.log('error', error);
+      return error.response;
+    }
+  };
+
+  const updateHygiene = async (data: Hygiene) => {
+    try {
+      const response: AxiosResponse = await hygieneService.update(data);
+
+      if (response.status == 200) {
+        setSnackbarOpen({
+          status: true,
+          type: 'success',
+          message: 'Sucesso ao editar o registro de higiene! :)',
+        });
+        // getVaccineById(data?.patient);
+      }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos editar o registro de higiene, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
+  const deleteHygiene = async (data: Hygiene) => {
+    try {
+      const response: AxiosResponse = await hygieneService.delete(data);
+
+      // if (response.status == 200) {
+      setSnackbarOpen({
+        status: true,
+        type: 'success',
+        message: 'Sucesso ao deletar o registro de higiene! :)',
+      });
+      // }
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message:
+          'Nós não conseguimos deletar o registro de higiene, volte mais tarde! :(',
+      });
+      console.log('error', error);
+      return error?.response;
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
@@ -531,6 +563,8 @@ export function ProviderContext({ children }: any) {
     vaccineList,
     selectedParasiteControl,
     parasiteControlList,
+    selectedHygiene,
+    hygieneList,
   };
 
   const actions = {
@@ -560,6 +594,11 @@ export function ProviderContext({ children }: any) {
     updateParasiteControl,
     deleteParasiteControl,
     setSelectedParasiteControl,
+    createHygiene,
+    getHygieneById,
+    updateHygiene,
+    deleteHygiene,
+    setSelectedHygiene,
   };
 
   return (

@@ -18,6 +18,9 @@ import { CreateVaccine } from './pages/vaccines/CreateVaccine';
 import { CreateParasiteControl } from './pages/parasiteControl/CreateParasiteControl';
 import { ParasiteControlPage } from './pages/parasiteControl/ParasiteControlPage';
 import { ParasiteControlDashboard } from './pages/parasiteControl/ParasiteControlDashboard';
+import { HygieneDashboard } from './pages/hygiene/HygieneDashboard';
+import { HygienePage } from './pages/hygiene/HygienePage';
+import { CreateHygiene } from './pages/hygiene/CreateHygiene';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -119,6 +122,21 @@ const parasiteControlUrls = [
   },
 ];
 
+const hygieneUrls = [
+  {
+    path: '/owners/:id/hygiene',
+    element: <HygieneDashboard />,
+  },
+  {
+    path: '/hygiene/:id',
+    element: <HygienePage />,
+  },
+  {
+    path: '/hygiene/:id/create',
+    element: <CreateHygiene />,
+  },
+];
+
 const router = createBrowserRouter([
   ...generalUrls,
   ...ownersUrls,
@@ -126,6 +144,7 @@ const router = createBrowserRouter([
   ...chartsUrls,
   ...vaccinesUrls,
   ...parasiteControlUrls,
+  ...hygieneUrls,
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
