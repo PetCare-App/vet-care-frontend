@@ -110,7 +110,7 @@ export const ParasiteControlPage = () => {
                 openDelete={handleOpenDelete}
               />
             ) : !parasiteControlList.length && !loading ? (
-              <ErrorPage label={'Não existem vacinas para este paciente'} />
+              <ErrorPage label={'Não existem registros para este paciente'} />
             ) : (
               <Grid
                 container
