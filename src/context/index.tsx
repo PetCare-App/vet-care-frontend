@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext, useState } from 'react';
 import { Owner, ownerInit } from '../types/Owner';
@@ -13,6 +14,7 @@ import { ParasiteControl, parasiteControlInit } from '../types/ParasiteControl';
 import { parasiteControlService } from '../services/parasiteControlService';
 import { Hygiene, hygieneInit } from '../types/Hygiene';
 import { hygieneService } from '../services/hygieneService';
+import { loginService } from '../services/loginService';
 
 export const VetCareContext = createContext({} as any);
 
@@ -25,23 +27,33 @@ export function ProviderContext({ children }: any) {
   const [selectedMedicalRecord, setSelectedMedicalRecord] =
     useState(medicalRecordInit);
 
-  const [medicalRecordList, setMedicalRecordList] = useState<MedicalRecord[]>([
-    medicalRecordInit,
-  ]);
+  const [medicalRecordList, setMedicalRecordList] = useState<{
+    patientMedicalRecord: MedicalRecord[];
+  }>({
+    ...petInit,
+    patientMedicalRecord: [],
+  });
 
   const [selectedVaccine, setSelectedVaccine] = useState(vaccineInit);
-  const [vaccineList, setVaccineList] = useState<Vaccine[]>([vaccineInit]);
+  const [vaccineList, setVaccineList] = useState<{ vaccines: Vaccine[] }>({
+    ...petInit,
+    vaccines: [],
+  });
 
   const [selectedParasiteControl, setSelectedParasiteControl] =
     useState(parasiteControlInit);
-  const [parasiteControlList, setParasiteControlList] = useState<
-    ParasiteControl[]
-  >([
-    // parasiteControlInit,
-  ]);
+  const [parasiteControlList, setParasiteControlList] = useState<{
+    parasiteControl: ParasiteControl[];
+  }>({
+    ...petInit,
+    parasiteControl: [],
+  });
 
   const [selectedHygiene, setSelectedHygiene] = useState(hygieneInit);
-  const [hygieneList, setHygieneList] = useState<Hygiene[]>([hygieneInit]);
+  const [hygieneList, setHygieneList] = useState<{ hygiene: Hygiene[] }>({
+    ...petInit,
+    hygiene: [],
+  });
 
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
@@ -53,6 +65,13 @@ export function ProviderContext({ children }: any) {
     message: '',
   });
   const [selectedMenuOption, setSelectedMenuOption] = useState(0);
+
+  const [user, setUser] = useState();
+
+  const [historyList, setHistoryList] = useState<any>({
+    ...petInit,
+    history: [],
+  });
 
   //OWNERS
 
@@ -82,6 +101,7 @@ export function ProviderContext({ children }: any) {
 
   const createOwner = async (data: Owner) => {
     try {
+      data.password = 'senha123';
       const response: AxiosResponse = await ownersService.createOwner(data);
 
       if (response.status == 201) {
@@ -104,6 +124,7 @@ export function ProviderContext({ children }: any) {
 
   const updateOwner = async (data: Owner) => {
     try {
+      delete data.patients;
       const response: AxiosResponse = await ownersService.updateOwner(data);
 
       if (response.status == 201) {
@@ -168,6 +189,11 @@ export function ProviderContext({ children }: any) {
 
   const updatePet = async (data: Pet) => {
     try {
+      delete data.owner;
+      delete data.patientMedicalRecord;
+      delete data.vaccines;
+      delete data.parasiteControl;
+      delete data.hygiene;
       const response: AxiosResponse = await petService.update(data);
 
       if (response.status == 200) {
@@ -217,7 +243,7 @@ export function ProviderContext({ children }: any) {
 
   const getMedicalRecordById = async (id: number) => {
     try {
-      const response: any = await medicalRecordService.getList();
+      const response: any = await petService.getById(id);
       setMedicalRecordList(response.data);
       return response;
     } catch (error: any) {
@@ -305,9 +331,13 @@ export function ProviderContext({ children }: any) {
     }
   };
 
-  const getVaccineById = async (id: string) => {
+  const getVaccineById = async (id: number) => {
     try {
-      const response: any = await vaccineService.getList();
+      const response: any = await petService.getById(id);
+      delete response.data.hygiene;
+      delete response.data.parasiteControl;
+      delete response.data.patientMedicalRecord;
+      console.log('response.data', response.data);
       setVaccineList(response.data);
       return response;
     } catch (error: any) {
@@ -394,9 +424,9 @@ export function ProviderContext({ children }: any) {
     }
   };
 
-  const getParasiteControlById = async (id: string) => {
+  const getParasiteControlById = async (id: number) => {
     try {
-      const response: any = await parasiteControlService.getList();
+      const response: any = await petService.getById(id);
       setParasiteControlList(response.data);
       return response;
     } catch (error: any) {
@@ -485,9 +515,9 @@ export function ProviderContext({ children }: any) {
     }
   };
 
-  const getHygieneById = async (id: string) => {
+  const getHygieneById = async (id: number) => {
     try {
-      const response: any = await hygieneService.getList();
+      const response: any = await petService.getById(id);
       setHygieneList(response.data);
       return response;
     } catch (error: any) {
@@ -551,6 +581,89 @@ export function ProviderContext({ children }: any) {
     }
   };
 
+  //LOGIN
+
+  const getUser = async (id: number) => {
+    try {
+      const response: any = await loginService.getUser(id);
+      setUser(response.data);
+      return;
+    } catch (e) {
+      console.log('e', e);
+    }
+  };
+
+  const vetLogin = async (data: any) => {
+    try {
+      const response: any = await loginService.vetLogin(data);
+      localStorage.setItem('jwtToken', response.data.token);
+      return response;
+    } catch (error: any) {
+      setSnackbarOpen({
+        status: true,
+        type: 'error',
+        message: 'Erro ao realizar o login, tente novamente! :(',
+      });
+      return error.response;
+    }
+  };
+
+  // HISTORY
+
+  const normalizeDate = (array: any) =>
+    array.map((item: any) => {
+      if (item.consultationDate) {
+        item.displayDate = item.consultationDate;
+      }
+      if (item.dateAdministered) {
+        item.displayDate = item.dateAdministered;
+      }
+      if (item.controlDate) {
+        item.displayDate = item.controlDate;
+      }
+      if (item.serviceDate) {
+        item.displayDate = item.serviceDate;
+      }
+
+      delete item.id;
+      delete item.patientId;
+      delete item.createdAt;
+      return item;
+    });
+
+  const getHistory = async (id: number) => {
+    try {
+      const response = await petService.getById(id);
+      const normalizedMedicalRecord = normalizeDate(
+        response.data.patientMedicalRecord,
+      );
+      const normalizedVaccines = normalizeDate(response.data.vaccines);
+      const normalizedParasiteControl = normalizeDate(
+        response.data.parasiteControl,
+      );
+      const normalizedHygiene = normalizeDate(response.data.hygiene);
+
+      const history = [
+        ...normalizedMedicalRecord,
+        ...normalizedVaccines,
+        ...normalizedParasiteControl,
+        ...normalizedHygiene,
+      ];
+
+      response.data.history = history.sort(
+        (a, b) => a.displayDate - b.displayDate,
+      );
+
+      delete response.data.patientMedicalRecord;
+      delete response.data.vaccines;
+      delete response.data.parasiteControl;
+      delete response.data.hygiene;
+      setHistoryList(response.data);
+    } catch (e) {
+      console.log('e', e);
+    }
+  };
+
   const states = {
     owners,
     snackbarOpen,
@@ -565,6 +678,8 @@ export function ProviderContext({ children }: any) {
     parasiteControlList,
     selectedHygiene,
     hygieneList,
+    user,
+    historyList,
   };
 
   const actions = {
@@ -599,6 +714,9 @@ export function ProviderContext({ children }: any) {
     updateHygiene,
     deleteHygiene,
     setSelectedHygiene,
+    vetLogin,
+    getUser,
+    getHistory,
   };
 
   return (

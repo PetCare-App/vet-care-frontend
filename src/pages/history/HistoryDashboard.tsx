@@ -36,7 +36,7 @@ const Header = () => {
   );
 };
 
-export const ChartsDashboard = () => {
+export const HistoryDashboard = () => {
   const location = useLocation();
 
   const { selectedOwner, getOwnerById } = useVetCareContext();
@@ -61,7 +61,7 @@ export const ChartsDashboard = () => {
             }}
           >
             {selectedOwner.patients.map((pet: Pet) => (
-              <PetInfoCard pet={pet} key={pet.id} url={`/charts/${pet.id}`} />
+              <PetInfoCard pet={pet} key={pet.id} url={`/history/${pet.id}`} />
             ))}
           </Grid>
         </Grid>

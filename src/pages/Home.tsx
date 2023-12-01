@@ -55,8 +55,11 @@ export const Home = () => {
         }}
         gap={12}
       >
-        <S_Card title={'Pacientes'} redirect={'/owners'} />
-        <S_Card title={'Agenda'} redirect={'/calendar'} />
+        <S_Card title={'Veterinários'} redirect={'/vet-login'} />
+        <S_Card
+          title={'Tutores'}
+          redirect={'https://petcare-online.web.app/login'}
+        />
       </Grid>
     </Grid>
   );

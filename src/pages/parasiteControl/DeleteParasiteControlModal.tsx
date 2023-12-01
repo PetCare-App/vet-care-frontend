@@ -12,9 +12,11 @@ import { useVetCareContext } from '../../context';
 export const DeleteParasiteControlModal = ({
   open,
   setOpen,
+  handleGetList,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  handleGetList: () => void;
 }) => {
   const { deleteParasiteControl, selectedParasiteControl } =
     useVetCareContext();
@@ -34,6 +36,7 @@ export const DeleteParasiteControlModal = ({
         <Button
           onClick={() => {
             deleteParasiteControl(selectedParasiteControl);
+            handleGetList();
             setOpen(false);
           }}
           autoFocus

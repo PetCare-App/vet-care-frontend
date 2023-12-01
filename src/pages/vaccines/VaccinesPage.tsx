@@ -12,14 +12,13 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
 import { VaccinesTimeline } from './VaccinesTimeline';
-import { Owner } from '../../types/Owner';
 import { useEffect, useState } from 'react';
 import { EditVaccineModal } from './EditVaccineModal';
 import SnackbarComponent from '../../components/Snackbar';
 import { DeleteVaccineModal } from './DeleteVaccineModal';
 import { ErrorPage } from '../../components/ErrorPage';
 
-const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
+const Header = ({ pet }: { pet: Pet }) => {
   const navigate = useNavigate();
 
   return (
@@ -38,13 +37,13 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/home">
+          <Link underline="hover" color="inherit" href="/veterinary-dashboard">
             Home
           </Link>
           <Link
             underline="hover"
             color="inherit"
-            href={`/owners/${owner.id}/vaccines`}
+            href={`/owners/${pet.owner.id}/vaccines`}
           >
             Vacinas
           </Link>
@@ -66,25 +65,21 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
 };
 
 export const VaccinesPage = () => {
-  const {
-    selectedPet,
-    selectedOwner,
-    vaccineList,
-    snackbarOpen,
-    getVaccineById,
-  } = useVetCareContext();
+  const { selectedPet, vaccineList, snackbarOpen, getVaccineById } =
+    useVetCareContext();
 
   const handleGetList = async () => {
     await getVaccineById(selectedPet.id);
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   handleGetList();
-  // }, []);
+  useEffect(() => {
+    handleGetList();
+  }, []);
+
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [loading, setLoading] = useState(false); //TROCAR PARA TRUE
+  const [loading, setLoading] = useState(true); //TROCAR PARA TRUE
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -93,23 +88,27 @@ export const VaccinesPage = () => {
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
+
+  useEffect(() => {
+    if (!openDelete) handleGetList();
+  }, [openDelete, openEdit]);
   return (
     <BackgroundWrapper>
       <>
         <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
-          <Header pet={selectedPet} owner={selectedOwner} />
+          <Header pet={vaccineList} />
           <Grid
             container
             sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
             justifyContent="center"
           >
-            {!!vaccineList.length && !loading ? (
+            {!!vaccineList.vaccines.length && !loading ? (
               <VaccinesTimeline
-                list={vaccineList}
+                list={vaccineList.vaccines}
                 openEdit={handleOpenEdit}
                 openDelete={handleOpenDelete}
               />
-            ) : !vaccineList.length && !loading ? (
+            ) : !vaccineList.vaccines.length && !loading ? (
               <ErrorPage label={'Não existem vacinas para este paciente'} />
             ) : (
               <Grid
@@ -127,7 +126,11 @@ export const VaccinesPage = () => {
           <EditVaccineModal open={openEdit} setOpen={setOpenEdit} />
         )}
         {!!openDelete && (
-          <DeleteVaccineModal open={openDelete} setOpen={setOpenDelete} />
+          <DeleteVaccineModal
+            open={openDelete}
+            setOpen={setOpenDelete}
+            handleGetList={handleGetList}
+          />
         )}
         {!!snackbarOpen && <SnackbarComponent />}
       </>

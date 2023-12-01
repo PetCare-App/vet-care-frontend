@@ -12,9 +12,11 @@ import { useVetCareContext } from '../../context';
 export const DeleteChartModal = ({
   open,
   setOpen,
+  handleGetList,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  handleGetList: () => void;
 }) => {
   const { deleteMedicalRecord, selectedMedicalRecord } = useVetCareContext();
 
@@ -33,6 +35,7 @@ export const DeleteChartModal = ({
         <Button
           onClick={() => {
             deleteMedicalRecord(selectedMedicalRecord);
+            handleGetList();
             setOpen(false);
           }}
           autoFocus

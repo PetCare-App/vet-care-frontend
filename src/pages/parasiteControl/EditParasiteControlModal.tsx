@@ -21,8 +21,11 @@ export const EditParasiteControlModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { selectedParasiteControl, selectedPet, updateParasiteControl } =
-    useVetCareContext();
+  const {
+    selectedParasiteControl,
+    parasiteControlList,
+    updateParasiteControl,
+  } = useVetCareContext();
 
   const [petData, setPetData] = useState(selectedParasiteControl);
 
@@ -63,7 +66,7 @@ export const EditParasiteControlModal = ({
           </IconButton>
         </Grid>
         <Grid container justifyContent="center">
-          <Typography variant="h4">{`Registro de ${selectedPet.name}`}</Typography>
+          <Typography variant="h4">{`Registro de ${parasiteControlList.name}`}</Typography>
         </Grid>
         <form
           onSubmit={(e) => {
@@ -83,7 +86,7 @@ export const EditParasiteControlModal = ({
               <TextField
                 label="Paciente *"
                 name="patient"
-                value={selectedPet.name}
+                value={parasiteControlList.name}
                 disabled
                 sx={{ width: '400px' }}
               />

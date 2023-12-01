@@ -23,11 +23,8 @@ const Header = () => {
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/home">
+          <Link underline="hover" color="inherit" href="/veterinary-dashboard">
             Home
-          </Link>
-          <Link underline="hover" color="inherit" href="/owners">
-            Tutores
           </Link>
           <Typography color="text.primary">Aqui</Typography>
         </Breadcrumbs>

@@ -9,7 +9,7 @@ export const hygieneService = {
     return await api.get(`/hygienes`);
   },
   getById: async (id: number) => {
-    return await api.get(`/hygienes/${id}`);
+    return await api.get(`/hygienes/patient/${id}`);
   },
   update: async (data: Hygiene) => {
     return await api.patch(`/hygienes/${data.id}`, data);

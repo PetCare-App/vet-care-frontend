@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ProviderContext } from './context';
 import { Home } from './pages/Home';
-import { OwnerSearch } from './pages/owner/OwnerSearch';
 import { CreateOwner } from './pages/owner/CreateOwner';
 import { PetsDashboard } from './pages/pets/PetsDashboard';
 import { ChartsDashboard } from './pages/charts/ChartsDashboard';
@@ -21,6 +20,10 @@ import { ParasiteControlDashboard } from './pages/parasiteControl/ParasiteContro
 import { HygieneDashboard } from './pages/hygiene/HygieneDashboard';
 import { HygienePage } from './pages/hygiene/HygienePage';
 import { CreateHygiene } from './pages/hygiene/CreateHygiene';
+import { VetLogin } from './pages/login/VetLogin';
+import { VeterinaryDashboard } from './pages/VeterinaryDashboard';
+import { HistoryDashboard } from './pages/history/HistoryDashboard';
+import { HistoryPage } from './pages/history/HistoryPage';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -47,10 +50,10 @@ const generalUrls = [
   },
 ];
 
-const ownersUrls = [
+const veterinaryUrl = [
   {
-    path: '/owners',
-    element: <OwnerSearch />,
+    path: '/veterinary-dashboard',
+    element: <VeterinaryDashboard />,
   },
   {
     path: '/owners/create',
@@ -137,14 +140,34 @@ const hygieneUrls = [
   },
 ];
 
+const loginUrls = [
+  {
+    path: '/vet-login',
+    element: <VetLogin />,
+  },
+];
+
+const historyUrls = [
+  {
+    path: '/owners/:id/history',
+    element: <HistoryDashboard />,
+  },
+  {
+    path: '/history/:id',
+    element: <HistoryPage />,
+  },
+];
+
 const router = createBrowserRouter([
   ...generalUrls,
-  ...ownersUrls,
+  ...veterinaryUrl,
   ...petsUrls,
   ...chartsUrls,
   ...vaccinesUrls,
   ...parasiteControlUrls,
   ...hygieneUrls,
+  ...loginUrls,
+  ...historyUrls,
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

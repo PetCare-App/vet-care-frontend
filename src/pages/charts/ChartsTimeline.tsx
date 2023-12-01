@@ -67,7 +67,7 @@ export const ChartsTimeline = ({
   openEdit: (data: MedicalRecord) => void;
   openDelete: (data: MedicalRecord) => void;
 }) => {
-  const { setSelectedMedicalRecord, selectedMedicalRecord, selectedPet } =
+  const { setSelectedMedicalRecord, selectedMedicalRecord, medicalRecordList } =
     useVetCareContext();
 
   const [downloadChart, setDownloadChart] = useState(false);
@@ -75,7 +75,10 @@ export const ChartsTimeline = ({
 
   const generateAndDownloadImage = async () => {
     const jsxElement = (
-      <DownloadChart chart={selectedMedicalRecord} selectedPet={selectedPet} />
+      <DownloadChart
+        chart={selectedMedicalRecord}
+        selectedPet={medicalRecordList}
+      />
     );
 
     const container = document.createElement('div');
@@ -91,7 +94,7 @@ export const ChartsTimeline = ({
 
     const link = document.createElement('a');
     link.href = dataUrl;
-    link.download = `${selectedPet?.name}-prontuario.png`;
+    link.download = `${medicalRecordList?.name}-prontuario.png`;
 
     link.click();
 

@@ -19,7 +19,7 @@ import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 import { medicalRecordInit } from '../../types/MedicalRecord';
 
 export const CreateChart = () => {
-  const { createMedicalRecord, snackbarOpen, selectedOwner, selectedPet } =
+  const { createMedicalRecord, snackbarOpen, medicalRecordList } =
     useVetCareContext();
   const navigate = useNavigate();
 
@@ -36,10 +36,11 @@ export const CreateChart = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    petData.patientId = selectedPet.id;
+    petData.patientId = medicalRecordList.id;
 
     const { status } = await createMedicalRecord(petData);
-    if (!!status) navigate(`../../${selectedPet.id}`, { relative: 'path' });
+    if (!!status)
+      navigate(`../../${medicalRecordList.id}`, { relative: 'path' });
     setLoading(false);
   };
 
@@ -57,16 +58,16 @@ export const CreateChart = () => {
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/owners/${selectedOwner.id}/charts`}
+                href={`/owners/${medicalRecordList.owner.id}/charts`}
               >
                 Prontuários
               </Link>
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/charts/${selectedPet.id}`}
+                href={`/charts/${medicalRecordList.id}`}
               >
-                {selectedPet.name}
+                {medicalRecordList.name}
               </Link>
               <Typography color="text.primary">Aqui</Typography>
             </Breadcrumbs>
@@ -87,7 +88,7 @@ export const CreateChart = () => {
                 <TextField
                   label="Paciente *"
                   name="patient"
-                  value={selectedPet.name}
+                  value={medicalRecordList.name}
                   disabled
                   sx={{ width: '400px' }}
                 />

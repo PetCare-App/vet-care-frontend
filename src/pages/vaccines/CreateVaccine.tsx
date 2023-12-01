@@ -19,8 +19,7 @@ import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 import { vaccineInit } from '../../types/Vaccine';
 
 export const CreateVaccine = () => {
-  const { createVaccine, snackbarOpen, selectedOwner, selectedPet } =
-    useVetCareContext();
+  const { createVaccine, snackbarOpen, vaccineList } = useVetCareContext();
   const navigate = useNavigate();
 
   const [petData, setPetData] = useState(vaccineInit);
@@ -36,8 +35,9 @@ export const CreateVaccine = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    petData.patientId = vaccineList.id;
     const { status } = await createVaccine(petData);
-    if (!!status) navigate(`../../${selectedPet.id}`, { relative: 'path' });
+    if (!!status) navigate(`../../${vaccineList.id}`, { relative: 'path' });
     setLoading(false);
   };
 
@@ -55,16 +55,16 @@ export const CreateVaccine = () => {
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/owners/${selectedOwner.id}/vaccines`}
+                href={`/owners/${vaccineList.owner.id}/vaccines`}
               >
                 Vacinas
               </Link>
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/vaccines/${selectedPet.id}`}
+                href={`/vaccines/${vaccineList.id}`}
               >
-                {selectedPet.name}
+                {vaccineList.name}
               </Link>
               <Typography color="text.primary">Aqui</Typography>
             </Breadcrumbs>
@@ -85,7 +85,7 @@ export const CreateVaccine = () => {
                 <TextField
                   label="Paciente *"
                   name="patient"
-                  value={selectedPet.name}
+                  value={vaccineList.name}
                   disabled
                   sx={{ width: '400px' }}
                 />
@@ -107,15 +107,6 @@ export const CreateVaccine = () => {
                   onChange={handleChange}
                   sx={{ width: '400px' }}
                 />
-                <Grid item sx={{ marginTop: '-25px' }}>
-                  <InputLabel>Data de validade *</InputLabel>
-                  <TextField
-                    name="expiryDate"
-                    type="date"
-                    onChange={handleChange}
-                    sx={{ width: '400px' }}
-                  />
-                </Grid>
               </Grid>
               <Grid display="grid" gridTemplateColumns={'1fr'}>
                 <TextField

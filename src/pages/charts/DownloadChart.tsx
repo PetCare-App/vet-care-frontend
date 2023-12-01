@@ -26,7 +26,7 @@ export const DownloadChart = ({
   selectedPet: Pet;
 }) => {
   return (
-    <Grid sx={{ padding: '40px 60px' }} id="medicalChart">
+    <Grid sx={{ padding: '40px 60px', height: '1000px' }} id="medicalChart">
       <Grid container justifyContent="center">
         <Typography variant="h4">{`Prontuário de atendimento ${selectedPet.name}`}</Typography>
       </Grid>
