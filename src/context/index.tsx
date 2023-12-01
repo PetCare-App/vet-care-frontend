@@ -642,7 +642,6 @@ export function ProviderContext({ children }: any) {
         response.data.parasiteControl,
       );
       const normalizedHygiene = normalizeDate(response.data.hygiene);
-      console.log('normalizedVaccines', normalizedVaccines);
 
       const history = [
         ...normalizedMedicalRecord,
@@ -659,7 +658,6 @@ export function ProviderContext({ children }: any) {
       delete response.data.vaccines;
       delete response.data.parasiteControl;
       delete response.data.hygiene;
-      console.log('response.data', response.data);
       setHistoryList(response.data);
     } catch (e) {
       console.log('e', e);
