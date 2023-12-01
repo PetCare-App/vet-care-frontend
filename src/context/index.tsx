@@ -55,8 +55,6 @@ export function ProviderContext({ children }: any) {
     hygiene: [],
   });
 
-  const [history, setHistory] = useState<any>({});
-
   const [snackbarOpen, setSnackbarOpen] = useState<{
     status: boolean;
     type: string;
@@ -69,6 +67,11 @@ export function ProviderContext({ children }: any) {
   const [selectedMenuOption, setSelectedMenuOption] = useState(0);
 
   const [user, setUser] = useState();
+
+  const [historyList, setHistoryList] = useState<any>({
+    ...petInit,
+    history: [],
+  });
 
   //OWNERS
 
@@ -607,10 +610,57 @@ export function ProviderContext({ children }: any) {
 
   // HISTORY
 
+  const normalizeDate = (array: any) =>
+    array.map((item: any) => {
+      if (item.consultationDate) {
+        item.displayDate = item.consultationDate;
+      }
+      if (item.dateAdministered) {
+        item.displayDate = item.dateAdministered;
+      }
+      if (item.controlDate) {
+        item.displayDate = item.controlDate;
+      }
+      if (item.serviceDate) {
+        item.displayDate = item.serviceDate;
+      }
+
+      delete item.id;
+      delete item.patientId;
+      delete item.createdAt;
+      return item;
+    });
+
   const getHistory = async (id: number) => {
     try {
-      const response = await medicalRecordService.getHistory(id);
-      setHistory(response.data);
+      const response = await petService.getById(id);
+      const normalizedMedicalRecord = normalizeDate(
+        response.data.patientMedicalRecord,
+      );
+      const normalizedVaccines = normalizeDate(response.data.vaccines);
+      const normalizedParasiteControl = normalizeDate(
+        response.data.parasiteControl,
+      );
+      const normalizedHygiene = normalizeDate(response.data.hygiene);
+      console.log('normalizedVaccines', normalizedVaccines);
+
+      const history = [
+        ...normalizedMedicalRecord,
+        ...normalizedVaccines,
+        ...normalizedParasiteControl,
+        ...normalizedHygiene,
+      ];
+
+      response.data.history = history.sort(
+        (a, b) => a.displayDate - b.displayDate,
+      );
+
+      delete response.data.patientMedicalRecord;
+      delete response.data.vaccines;
+      delete response.data.parasiteControl;
+      delete response.data.hygiene;
+      console.log('response.data', response.data);
+      setHistoryList(response.data);
     } catch (e) {
       console.log('e', e);
     }
@@ -631,7 +681,7 @@ export function ProviderContext({ children }: any) {
     selectedHygiene,
     hygieneList,
     user,
-    history,
+    historyList,
   };
 
   const actions = {

@@ -22,6 +22,8 @@ import { HygienePage } from './pages/hygiene/HygienePage';
 import { CreateHygiene } from './pages/hygiene/CreateHygiene';
 import { VetLogin } from './pages/login/VetLogin';
 import { VeterinaryDashboard } from './pages/VeterinaryDashboard';
+import { HistoryDashboard } from './pages/history/HistoryDashboard';
+import { HistoryPage } from './pages/history/HistoryPage';
 
 const themeOptions: ThemeOptions = {
   palette: {
@@ -145,6 +147,17 @@ const loginUrls = [
   },
 ];
 
+const historyUrls = [
+  {
+    path: '/owners/:id/history',
+    element: <HistoryDashboard />,
+  },
+  {
+    path: '/history/:id',
+    element: <HistoryPage />,
+  },
+];
+
 const router = createBrowserRouter([
   ...generalUrls,
   ...veterinaryUrl,
@@ -154,6 +167,7 @@ const router = createBrowserRouter([
   ...parasiteControlUrls,
   ...hygieneUrls,
   ...loginUrls,
+  ...historyUrls,
 ]);
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
