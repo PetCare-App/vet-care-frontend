@@ -38,7 +38,6 @@ export const HistoryPage = () => {
     if (input) {
       const inputHeight = 195;
 
-      console.log('input', input);
       const pageHeight = 800;
       let position = 0;
 
@@ -55,7 +54,6 @@ export const HistoryPage = () => {
 
         const pdfWidth = pdf.internal.pageSize.width;
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        console.log('pdfHeight', pdfHeight);
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
         position += pageHeight;
 
@@ -66,8 +64,6 @@ export const HistoryPage = () => {
       pdf.save(`${historyList.name}-historico.pdf`);
     }
   };
-
-  console.log('historyList', historyList);
 
   return (
     <BackgroundWrapper>
