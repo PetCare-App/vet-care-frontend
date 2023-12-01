@@ -98,10 +98,7 @@ export const VaccinesTimeline = ({
                     label={'Data de aplicação'}
                     data={dateFormatter(step.dateAdministered)}
                   />
-                  <InfoItem
-                    label={'Data de validade'}
-                    data={dateFormatter(step.expiryDate)}
-                  />
+
                   <InfoItem
                     label={'Notas adicionais'}
                     data={!!step.notes ? step.notes : '-'}

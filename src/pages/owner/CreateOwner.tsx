@@ -14,12 +14,11 @@ import {
 } from '@mui/material';
 
 import { Header } from '../../components/Header';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
 import { ownerInit } from '../../types/Owner';
-// import { PhoneMask } from '../../components/masks/PhoneMask';
 
 export const CreateOwner = () => {
   const { createOwner, snackbarOpen } = useVetCareContext();
@@ -27,7 +26,6 @@ export const CreateOwner = () => {
 
   const [ownerData, setOwnerData] = useState(ownerInit);
   const [loading, setLoading] = useState(false);
-  const [disableButton, setDisableButton] = useState(true);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -39,15 +37,16 @@ export const CreateOwner = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    delete ownerData.patients;
     const { status } = await createOwner(ownerData);
-    if (!!status) navigate('/owners');
+    if (!!status) navigate('/veterinary-dashboard');
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (!!Object.entries(ownerData).length)
-      setDisableButton(Object.values(ownerData).includes(''));
-  }, [ownerData]);
+  // useEffect(() => {
+  //   if (!!Object.entries(ownerData).length)
+  //     setDisableButton(Object.values(ownerData).includes(''));
+  // }, [ownerData]);
 
   return (
     <Grid
@@ -58,11 +57,12 @@ export const CreateOwner = () => {
       <Header
         breadcrumbs={
           <Breadcrumbs aria-label="breadcrumb">
-            <Link underline="hover" color="inherit" href="/home">
+            <Link
+              underline="hover"
+              color="inherit"
+              href="/veterinary-dashboard"
+            >
               Home
-            </Link>
-            <Link underline="hover" color="inherit" href="/owners">
-              Tutores
             </Link>
             <Typography color="text.primary">Aqui</Typography>
           </Breadcrumbs>

@@ -233,7 +233,6 @@ export const OwnerDialog = ({
   const [isEdit, setIsEdit] = useState(false);
   const [currentOwner, setCurrentOwner] = useState(selectedOwner);
   const [loading, setLoading] = useState(false);
-  const [disableButton, setDisableButton] = useState(true);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -244,11 +243,6 @@ export const OwnerDialog = ({
       setLoading(false);
     } else setLoading(false);
   };
-
-  useEffect(() => {
-    if (!!Object.entries(currentOwner).length)
-      setDisableButton(Object.values(currentOwner).includes(''));
-  }, [currentOwner]);
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="lg">
@@ -319,6 +313,9 @@ export const OwnerDialog = ({
                   onClick={() => {
                     handleSubmit();
                     setLoading(false);
+                  }}
+                  sx={{
+                    color: 'white',
                   }}
                 >
                   Enviar

@@ -9,12 +9,15 @@ export const medicalRecordService = {
     return await api.get(`/patients-medical-records`);
   },
   getById: async (id: number) => {
-    return await api.get(`/patients-medical-records/${id}`);
+    return await api.get(`/patients-medical-records/patient/${id}`);
   },
   update: async (data: MedicalRecord) => {
     return await api.patch(`/patients-medical-records/${data.id}`, data);
   },
   delete: async (data: MedicalRecord) => {
     return await api.delete(`/patients-medical-records/${data.id}`);
+  },
+  getHistory: async (id: number) => {
+    return await api.get(`/patients/${id}`);
   },
 };

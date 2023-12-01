@@ -12,14 +12,13 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
 import { ChartsTimeline } from './ChartsTimeline';
-import { Owner } from '../../types/Owner';
 import { useEffect, useState } from 'react';
 import { EditChartModal } from './EditChartModal';
 import SnackbarComponent from '../../components/Snackbar';
 import { DeleteChartModal } from './DeleteChartModal';
 import { ErrorPage } from '../../components/ErrorPage';
 
-const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
+const Header = ({ pet }: { pet: Pet }) => {
   const navigate = useNavigate();
 
   return (
@@ -38,13 +37,13 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/home">
+          <Link underline="hover" color="inherit" href="/veterinary-dashboard">
             Home
           </Link>
           <Link
             underline="hover"
             color="inherit"
-            href={`/owners/${owner.id}/charts`}
+            href={`/owners/${pet.owner.id}/charts`}
           >
             Prontuários
           </Link>
@@ -66,13 +65,8 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
 };
 
 export const ChartPage = () => {
-  const {
-    selectedPet,
-    selectedOwner,
-    medicalRecordList,
-    snackbarOpen,
-    getMedicalRecordById,
-  } = useVetCareContext();
+  const { selectedPet, medicalRecordList, snackbarOpen, getMedicalRecordById } =
+    useVetCareContext();
 
   const handleGetList = async () => {
     await getMedicalRecordById(selectedPet.id);
@@ -93,27 +87,33 @@ export const ChartPage = () => {
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
+
+  useEffect(() => {
+    if (!openDelete) handleGetList();
+  }, [openDelete, openEdit]);
   return (
     <BackgroundWrapper>
       <>
         <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
-          <Header pet={selectedPet} owner={selectedOwner} />
+          <Header pet={medicalRecordList} />
           <Grid
             container
             sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
           >
-            {!!medicalRecordList.length && !loading ? (
+            {!!medicalRecordList.patientMedicalRecord.length && !loading ? (
               <ChartsTimeline
-                list={medicalRecordList}
+                list={medicalRecordList.patientMedicalRecord}
                 openEdit={handleOpenEdit}
                 openDelete={handleOpenDelete}
               />
-            ) : !medicalRecordList.length && !loading ? (
-              <ErrorPage
-                label={
-                  'Não existem prontuários de atendimento para este paciente'
-                }
-              />
+            ) : !medicalRecordList.patientMedicalRecord.length && !loading ? (
+              <Grid container justifyContent={'center'}>
+                <ErrorPage
+                  label={
+                    'Não existem prontuários de atendimento para este paciente'
+                  }
+                />
+              </Grid>
             ) : (
               <Grid
                 container
@@ -128,7 +128,11 @@ export const ChartPage = () => {
         </Grid>
         {!!openEdit && <EditChartModal open={openEdit} setOpen={setOpenEdit} />}
         {!!openDelete && (
-          <DeleteChartModal open={openDelete} setOpen={setOpenDelete} />
+          <DeleteChartModal
+            open={openDelete}
+            setOpen={setOpenDelete}
+            handleGetList={handleGetList}
+          />
         )}
         {!!snackbarOpen && <SnackbarComponent />}
       </>

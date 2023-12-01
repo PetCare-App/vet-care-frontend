@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Pet {
   id?: number;
   name: string;
@@ -14,6 +15,11 @@ export interface Pet {
   currentStatus: string;
   additionalNotes?: string;
   ownerId: number;
+  owner?: any;
+  parasiteControl?: [];
+  vaccines?: [];
+  patientMedicalRecord?: [];
+  hygiene?: [];
 }
 
 export const petInit = {
@@ -32,4 +38,8 @@ export const petInit = {
   currentStatus: 'n/a',
   additionalNotes: '',
   ownerId: 1,
+  owner: {},
+  parasiteControl: [],
+  vaccines: [],
+  patientMedicalRecords: [],
 };

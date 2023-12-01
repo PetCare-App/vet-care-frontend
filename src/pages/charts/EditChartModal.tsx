@@ -21,8 +21,12 @@ export const EditChartModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { selectedMedicalRecord, selectedPet, updateMedicalRecord } =
-    useVetCareContext();
+  const {
+    selectedMedicalRecord,
+    selectedPet,
+    updateMedicalRecord,
+    medicalRecordList,
+  } = useVetCareContext();
 
   const [petData, setPetData] = useState(selectedMedicalRecord);
 
@@ -64,7 +68,7 @@ export const EditChartModal = ({
           </IconButton>
         </Grid>
         <Grid container justifyContent="center">
-          <Typography variant="h4">{`Prontuário de ${selectedPet.name}`}</Typography>
+          <Typography variant="h4">{`Prontuário de ${medicalRecordList.name}`}</Typography>
         </Grid>
         <form
           onSubmit={(e) => {
@@ -83,7 +87,7 @@ export const EditChartModal = ({
               <TextField
                 label="Paciente *"
                 name="patient"
-                value={selectedPet.name}
+                value={medicalRecordList.name}
                 disabled
                 sx={{ width: '400px' }}
               />
@@ -92,7 +96,7 @@ export const EditChartModal = ({
                 <TextField
                   name="consultationDate"
                   disabled
-                  value={dateFormatter(selectedMedicalRecord.consultationDate)}
+                  value={dateFormatter(petData.consultationDate)}
                   onChange={handleChange}
                   sx={{ width: '400px' }}
                 />

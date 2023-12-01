@@ -19,8 +19,7 @@ import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 import { hygieneInit } from '../../types/Hygiene';
 
 export const CreateHygiene = () => {
-  const { createHygiene, snackbarOpen, selectedOwner, selectedPet } =
-    useVetCareContext();
+  const { createHygiene, snackbarOpen, hygieneList } = useVetCareContext();
   const navigate = useNavigate();
 
   const [petData, setPetData] = useState(hygieneInit);
@@ -36,9 +35,9 @@ export const CreateHygiene = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    petData.patientId = selectedPet.id;
+    petData.patientId = hygieneList.id;
     const { status } = await createHygiene(petData);
-    if (!!status) navigate(`../../${selectedPet.id}`, { relative: 'path' });
+    if (!!status) navigate(`../../${hygieneList.id}`, { relative: 'path' });
     setLoading(false);
   };
 
@@ -56,16 +55,16 @@ export const CreateHygiene = () => {
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/owners/${selectedOwner.id}/hygiene`}
+                href={`/owners/${hygieneList.owner.id}/hygiene`}
               >
                 Higiene
               </Link>
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/hygiene/${selectedPet.id}`}
+                href={`/hygiene/${hygieneList.id}`}
               >
-                {selectedPet.name}
+                {hygieneList.name}
               </Link>
               <Typography color="text.primary">Aqui</Typography>
             </Breadcrumbs>
@@ -86,7 +85,7 @@ export const CreateHygiene = () => {
                 <TextField
                   label="Paciente *"
                   name="patient"
-                  value={selectedPet.name}
+                  value={hygieneList.name}
                   disabled
                   sx={{ width: '400px' }}
                 />

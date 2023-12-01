@@ -17,6 +17,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PetInfoCard } from './PetInfoCard';
 import { Pet } from '../../types/Pet';
 import { BackgroundWrapper } from '../../components/BackgroundWrapper';
+import { ErrorPage } from '../../components/ErrorPage';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -36,11 +37,8 @@ const Header = () => {
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/home">
+          <Link underline="hover" color="inherit" href="/veterinary-dashboard">
             Home
-          </Link>
-          <Link underline="hover" color="inherit" href="/owners">
-            Tutores
           </Link>
           <Typography color="text.primary">Aqui</Typography>
         </Breadcrumbs>
@@ -69,6 +67,7 @@ const OwnerInfo = ({
       gap={4}
       sx={{
         ml: '30px',
+        pb: '70px',
       }}
     >
       <Grid container display="grid" gridTemplateColumns={'1fr 1fr 0.2fr'}>
@@ -135,6 +134,9 @@ export const PetsDashboard = () => {
               justifyContent: 'center',
             }}
           >
+            {!selectedOwner.patients.length && (
+              <ErrorPage label="Não existem pacientes cadastrados para este tutor!" />
+            )}
             {selectedOwner.patients.map((pet: Pet) => (
               <PetInfoCard pet={pet} key={pet.id} url={`/pets/${pet.id}`} />
             ))}

@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 
 import { Header } from '../../components/Header';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
@@ -45,21 +45,6 @@ export const CreatePet = () => {
     if (!!status) navigate('..', { relative: 'path' });
     setLoading(false);
   };
-
-  useEffect(() => {
-    const propertiesToIgnore = ['medications', 'photoUrl', 'currentStatus'];
-
-    // if (!!Object.entries(petData).length)
-    //   setDisableButton(
-    //     Object.entries(petData).some(([key, value]) => {
-    //       if (propertiesToIgnore.includes(key)) {
-    //         return false; // Ignore these properties
-    //       }
-    //       return typeof value === 'string' && value.trim() === '';
-    //     }),
-    //   );
-  }, [petData]);
-
   return (
     <BackgroundWrapper>
       <Grid
@@ -71,8 +56,12 @@ export const CreatePet = () => {
         <Header
           breadcrumbs={
             <Breadcrumbs aria-label="breadcrumb">
-              <Link underline="hover" color="inherit" href="/owners">
-                Tutores
+              <Link
+                underline="hover"
+                color="inherit"
+                href="/veterinary-dashboard"
+              >
+                Home
               </Link>
               <Link
                 underline="hover"
@@ -118,13 +107,18 @@ export const CreatePet = () => {
                 />
               </Grid>
               <Grid item>
-                <TextField
-                  label="Espécie *"
-                  name="species"
-                  value={petData.species}
-                  onChange={handleChange}
-                  sx={{ width: '400px' }}
-                />
+                <FormControl>
+                  <InputLabel>Espécie *</InputLabel>
+                  <Select
+                    name="species"
+                    value={petData.species}
+                    onChange={handleChange}
+                    sx={{ width: '400px' }}
+                  >
+                    <MenuItem value="cat">Gato</MenuItem>
+                    <MenuItem value="dog">Cachorro</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item>
                 <TextField
@@ -151,7 +145,7 @@ export const CreatePet = () => {
                   onChange={handleChange}
                   sx={{ width: '400px' }}
                   InputProps={{
-                    startAdornment: (
+                    endAdornment: (
                       <InputAdornment position="start">kg</InputAdornment>
                     ),
                   }}

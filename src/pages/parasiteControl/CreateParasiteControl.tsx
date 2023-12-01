@@ -19,7 +19,7 @@ import { BackgroundWrapper } from '../../components/BackgroundWrapper';
 import { parasiteControlInit } from '../../types/ParasiteControl';
 
 export const CreateParasiteControl = () => {
-  const { createParasiteControl, snackbarOpen, selectedOwner, selectedPet } =
+  const { createParasiteControl, snackbarOpen, parasiteControlList } =
     useVetCareContext();
   const navigate = useNavigate();
 
@@ -36,9 +36,10 @@ export const CreateParasiteControl = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    petData.patientId = selectedPet.id;
+    petData.patientId = parasiteControlList.id;
     const { status } = await createParasiteControl(petData);
-    if (!!status) navigate(`../../${selectedPet.id}`, { relative: 'path' });
+    if (!!status)
+      navigate(`../../${parasiteControlList.id}`, { relative: 'path' });
     setLoading(false);
   };
 
@@ -56,16 +57,16 @@ export const CreateParasiteControl = () => {
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/owners/${selectedOwner.id}/parasite-control`}
+                href={`/owners/${parasiteControlList.owner.id}/parasite-control`}
               >
                 Controle Parasitário
               </Link>
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/parasite-control/${selectedPet.id}`}
+                href={`/parasite-control/${parasiteControlList.id}`}
               >
-                {selectedPet.name}
+                {parasiteControlList.name}
               </Link>
               <Typography color="text.primary">Aqui</Typography>
             </Breadcrumbs>
@@ -86,7 +87,7 @@ export const CreateParasiteControl = () => {
                 <TextField
                   label="Paciente *"
                   name="patient"
-                  value={selectedPet.name}
+                  value={parasiteControlList.name}
                   disabled
                   sx={{ width: '400px' }}
                 />

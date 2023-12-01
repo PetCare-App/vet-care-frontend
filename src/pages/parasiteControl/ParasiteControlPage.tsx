@@ -12,14 +12,13 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
 import { ParasiteControlTimeline } from './ParasiteControlTimeline';
-import { Owner } from '../../types/Owner';
 import { useEffect, useState } from 'react';
 import { EditParasiteControlModal } from './EditParasiteControlModal';
 import SnackbarComponent from '../../components/Snackbar';
 import { DeleteParasiteControlModal } from './DeleteParasiteControlModal';
 import { ErrorPage } from '../../components/ErrorPage';
 
-const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
+const Header = ({ pet }: { pet: Pet }) => {
   const navigate = useNavigate();
 
   return (
@@ -38,13 +37,13 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/home">
+          <Link underline="hover" color="inherit" href="/veterinary-dashboard">
             Home
           </Link>
           <Link
             underline="hover"
             color="inherit"
-            href={`/owners/${owner.id}/parasite-control`}
+            href={`/owners/${pet.owner.id}/parasite-control`}
           >
             Controle Parasitário
           </Link>
@@ -68,7 +67,6 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
 export const ParasiteControlPage = () => {
   const {
     selectedPet,
-    selectedOwner,
     parasiteControlList,
     snackbarOpen,
     getParasiteControlById,
@@ -79,12 +77,13 @@ export const ParasiteControlPage = () => {
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   handleGetList();
-  // }, []);
+  useEffect(() => {
+    handleGetList();
+  }, []);
+
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [loading, setLoading] = useState(false); //TROCAR PARA TRUE
+  const [loading, setLoading] = useState(true); //TROCAR PARA TRUE
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -93,23 +92,27 @@ export const ParasiteControlPage = () => {
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
+
+  useEffect(() => {
+    if (!openDelete) handleGetList();
+  }, [openDelete, openEdit]);
   return (
     <BackgroundWrapper>
       <>
         <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
-          <Header pet={selectedPet} owner={selectedOwner} />
+          <Header pet={parasiteControlList} />
           <Grid
             container
             sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
             justifyContent="center"
           >
-            {!!parasiteControlList.length && !loading ? (
+            {!!parasiteControlList.parasiteControl.length && !loading ? (
               <ParasiteControlTimeline
-                list={parasiteControlList}
+                list={parasiteControlList.parasiteControl}
                 openEdit={handleOpenEdit}
                 openDelete={handleOpenDelete}
               />
-            ) : !parasiteControlList.length && !loading ? (
+            ) : !parasiteControlList.parasiteControl.length && !loading ? (
               <ErrorPage label={'Não existem registros para este paciente'} />
             ) : (
               <Grid
@@ -130,6 +133,7 @@ export const ParasiteControlPage = () => {
           <DeleteParasiteControlModal
             open={openDelete}
             setOpen={setOpenDelete}
+            handleGetList={handleGetList}
           />
         )}
         {!!snackbarOpen && <SnackbarComponent />}

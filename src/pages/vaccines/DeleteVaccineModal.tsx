@@ -12,9 +12,11 @@ import { useVetCareContext } from '../../context';
 export const DeleteVaccineModal = ({
   open,
   setOpen,
+  handleGetList,
 }: {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  handleGetList: () => void;
 }) => {
   const { deleteVaccine, selectedVaccine } = useVetCareContext();
 
@@ -33,6 +35,7 @@ export const DeleteVaccineModal = ({
         <Button
           onClick={() => {
             deleteVaccine(selectedVaccine);
+            handleGetList();
             setOpen(false);
           }}
           autoFocus

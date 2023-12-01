@@ -17,15 +17,15 @@ import { useNavigate } from 'react-router-dom';
 import SnackbarComponent from '../../components/Snackbar';
 
 export const OwnerSearch = () => {
-  const { owners, getOwnersList, getOwnerById, snackbarOpen } =
-    useVetCareContext();
+  const { owners, getOwnerById, snackbarOpen } = useVetCareContext();
   const navigate = useNavigate();
 
   const [ownerId, setOwnerId] = useState('');
+  const [ownerListLoading, setOwnerListLoading] = useState(true);
 
   useEffect(() => {
-    getOwnersList();
-  }, []);
+    if (!!owners.length) setOwnerListLoading(false);
+  }, [owners]);
 
   return (
     <Grid
@@ -83,6 +83,7 @@ export const OwnerSearch = () => {
           inputProps={{ 'aria-label': 'Without label' }}
           onChange={(e) => setOwnerId(e.target.value)}
           placeholder="Selecione"
+          disabled={ownerListLoading}
           sx={{
             width: '500px',
           }}
@@ -98,6 +99,7 @@ export const OwnerSearch = () => {
         </Select>
         <Link></Link>
         <IconButton
+          disabled={ownerListLoading}
           onClick={async () => {
             const response = await getOwnerById(ownerId);
             if (response.status == 200) {

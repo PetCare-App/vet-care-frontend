@@ -21,7 +21,7 @@ export const EditVaccineModal = ({
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { selectedVaccine, selectedPet, updateVaccine } = useVetCareContext();
+  const { selectedVaccine, updateVaccine, vaccineList } = useVetCareContext();
 
   const [petData, setPetData] = useState(selectedVaccine);
 
@@ -44,7 +44,6 @@ export const EditVaccineModal = ({
     setLoading(false);
   };
 
-  console.log('petData', petData);
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth={'xl'}>
       <Grid
@@ -62,7 +61,7 @@ export const EditVaccineModal = ({
           </IconButton>
         </Grid>
         <Grid container justifyContent="center">
-          <Typography variant="h4">{`Aplicação de vacina em ${selectedPet.name}`}</Typography>
+          <Typography variant="h4">{`Aplicação de vacina em ${vaccineList.name}`}</Typography>
         </Grid>
         <form
           onSubmit={(e) => {
@@ -82,7 +81,7 @@ export const EditVaccineModal = ({
               <TextField
                 label="Paciente *"
                 name="patient"
-                value={selectedPet.name}
+                value={vaccineList.name}
                 disabled
                 sx={{ width: '400px' }}
               />
@@ -105,16 +104,6 @@ export const EditVaccineModal = ({
                 onChange={handleChange}
                 sx={{ width: '400px' }}
               />
-              <Grid item sx={{ marginTop: '-25px' }}>
-                <InputLabel>Data de validade *</InputLabel>
-                <TextField
-                  name="expiryDate"
-                  disabled
-                  value={dateFormatter(petData.expiryDate)}
-                  onChange={handleChange}
-                  sx={{ width: '400px' }}
-                />
-              </Grid>
             </Grid>
             <Grid display="grid" gridTemplateColumns={'1fr'}>
               <TextField

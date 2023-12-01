@@ -12,14 +12,13 @@ import { useVetCareContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../../types/Pet';
 import { HygieneTimeline } from './HygieneTimeline';
-import { Owner } from '../../types/Owner';
 import { useEffect, useState } from 'react';
 import { EditHygieneModal } from './EditHygieneModal';
 import SnackbarComponent from '../../components/Snackbar';
 import { DeleteHygieneModal } from './DeleteHygieneModal';
 import { ErrorPage } from '../../components/ErrorPage';
 
-const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
+const Header = ({ pet }: { pet: Pet }) => {
   const navigate = useNavigate();
 
   return (
@@ -38,13 +37,13 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
         }}
       >
         <Breadcrumbs aria-label="breadcrumb">
-          <Link underline="hover" color="inherit" href="/home">
+          <Link underline="hover" color="inherit" href="/veterinary-dashboard">
             Home
           </Link>
           <Link
             underline="hover"
             color="inherit"
-            href={`/owners/${owner.id}/hygiene`}
+            href={`/owners/${pet.owner.id}/hygiene`}
           >
             Higiene
           </Link>
@@ -66,25 +65,20 @@ const Header = ({ pet, owner }: { pet: Pet; owner: Owner }) => {
 };
 
 export const HygienePage = () => {
-  const {
-    selectedPet,
-    selectedOwner,
-    hygieneList,
-    snackbarOpen,
-    getHygieneById,
-  } = useVetCareContext();
+  const { selectedPet, hygieneList, snackbarOpen, getHygieneById } =
+    useVetCareContext();
 
   const handleGetList = async () => {
     await getHygieneById(selectedPet.id);
     setLoading(false);
   };
 
-  // useEffect(() => {
-  //   handleGetList();
-  // }, []);
+  useEffect(() => {
+    handleGetList();
+  }, []);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [loading, setLoading] = useState(false); //TROCAR PARA TRUE
+  const [loading, setLoading] = useState(true); //TROCAR PARA TRUE
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -93,23 +87,28 @@ export const HygienePage = () => {
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
+
+  useEffect(() => {
+    if (!openDelete) handleGetList();
+  }, [openDelete, openEdit]);
+
   return (
     <BackgroundWrapper>
       <>
         <Grid container alignContent="flex-start" sx={{ height: '100vh' }}>
-          <Header pet={selectedPet} owner={selectedOwner} />
+          <Header pet={hygieneList} />
           <Grid
             container
             sx={{ width: '100%', paddingLeft: '40px', paddingTop: '80px' }}
             justifyContent="center"
           >
-            {!!hygieneList.length && !loading ? (
+            {!!hygieneList.hygiene.length && !loading ? (
               <HygieneTimeline
-                list={hygieneList}
+                list={hygieneList.hygiene}
                 openEdit={handleOpenEdit}
                 openDelete={handleOpenDelete}
               />
-            ) : !hygieneList.length && !loading ? (
+            ) : !hygieneList.hygiene.length && !loading ? (
               <ErrorPage label={'Não existem registros para este paciente'} />
             ) : (
               <Grid
@@ -127,7 +126,11 @@ export const HygienePage = () => {
           <EditHygieneModal open={openEdit} setOpen={setOpenEdit} />
         )}
         {!!openDelete && (
-          <DeleteHygieneModal open={openDelete} setOpen={setOpenDelete} />
+          <DeleteHygieneModal
+            open={openDelete}
+            setOpen={setOpenDelete}
+            handleGetList={handleGetList}
+          />
         )}
         {!!snackbarOpen && <SnackbarComponent />}
       </>

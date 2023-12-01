@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 import { Avatar, Box, Grid, Link } from '@mui/material';
 import { useVetCareContext } from '../context';
 import VetCareLogo from './../assets/vetcare-logo.png';
@@ -28,6 +29,12 @@ const MenuItem = ({
       navigate(`..${item.url}`, { relative: 'path' });
     else navigate(`/owners/${selectedOwner.id}${item.url}`);
   };
+
+  // const disabledOption = () => {
+  //   if (!!selectedOwner.patients)
+  //     return !selectedOwner.patients.length && index > 0 ? true : false;
+  //   else return false;
+  // };
   return (
     <Box
       key={`box-${index}`}
@@ -38,7 +45,7 @@ const MenuItem = ({
         }`,
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: '#48b281',
+          backgroundColor: '#48b281', //`${!disabledOption() ?  : '#EAEAEA'}`,
         },
       }}
       onClick={() => {
@@ -52,7 +59,7 @@ const MenuItem = ({
         variant="h6"
         sx={{
           height: '50px',
-          color: '#000',
+          color: '#000', //`${!disabledOption() ? '#000' : '#6d6d6d'}`,
           ml: '30px',
         }}
         underline="none"
@@ -60,6 +67,7 @@ const MenuItem = ({
           setSelectedMenuOption(index);
           handleUrlChange();
         }}
+        // disabled={disabledOption()}
       >
         {item.label}
       </Link>
