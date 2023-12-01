@@ -56,7 +56,6 @@ export const HistoryTimeline = ({ list }: { list: History[] }) => {
     <Box sx={{ width: '100%' }}>
       <Stepper orientation="vertical">
         {list.map((step, index) => {
-          console.log('step', step);
           const labels: { [key: string]: string } = {
             name: 'Nome',
             dateAdministered: 'Data de aplicação vacina',
