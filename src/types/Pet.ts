@@ -41,5 +41,5 @@ export const petInit = {
   owner: {},
   parasiteControl: [],
   vaccines: [],
-  patientMedicalRecords: [],
+  patientMedicalRecord: [],
 };

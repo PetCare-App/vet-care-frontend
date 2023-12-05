@@ -1,15 +1,15 @@
 export interface Owner {
   id?: number;
-  name: string;
-  address: string;
-  phoneNumber: string;
-  email: string;
-  dateOfBirth?: string;
-  gender: string;
-  maritalStatus: string;
-  occupation: string;
+  name: string; //
+  address: string; //
+  phoneNumber: string; //
+  email: string; //
+  dateOfBirth?: string; //
+  gender: string; //
+  maritalStatus: string; //
+  occupation: string; //
   photoUrl?: string | null;
-  preferredPaymentMethod?: string;
+  preferredPaymentMethod?: string; //
   petInsuranceDetails?: string;
   additionalNotes?: string;
   registrationDate: string | Date;
@@ -18,7 +18,7 @@ export interface Owner {
 }
 
 export const ownerInit: Owner = {
-  // id: 1,
+  id: 1,
   name: 'Teste 123',
   address: 'Rua Duque de Caxias',
   phoneNumber: '(51) 994051771',
