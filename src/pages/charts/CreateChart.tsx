@@ -36,11 +36,11 @@ export const CreateChart = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    petData.patientId = medicalRecordList.id;
+    petData.patientId = medicalRecordList.patientId;
 
     const { status } = await createMedicalRecord(petData);
     if (!!status)
-      navigate(`../../${medicalRecordList.id}`, { relative: 'path' });
+      navigate(`../../${medicalRecordList.patientId}`, { relative: 'path' });
     setLoading(false);
   };
 
@@ -65,7 +65,7 @@ export const CreateChart = () => {
               <Link
                 underline="hover"
                 color="inherit"
-                href={`/charts/${medicalRecordList.id}`}
+                href={`/charts/${medicalRecordList.patientId}`}
               >
                 {medicalRecordList.name}
               </Link>

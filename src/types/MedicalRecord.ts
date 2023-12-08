@@ -15,5 +15,5 @@ export const medicalRecordInit: MedicalRecord = {
   treatment: '',
   prescription: '',
   notes: '',
-  patientId: 1,
+  patientId: 6,
 };

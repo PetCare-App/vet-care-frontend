@@ -23,7 +23,7 @@ export interface Pet {
 }
 
 export const petInit = {
-  id: 1,
+  id: 6,
   name: '',
   species: '',
   breed: '',

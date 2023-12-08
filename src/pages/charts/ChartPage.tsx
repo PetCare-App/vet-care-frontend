@@ -69,7 +69,7 @@ export const ChartPage = () => {
     useVetCareContext();
 
   const handleGetList = async () => {
-    await getMedicalRecordById(selectedPet.id);
+    await getMedicalRecordById(6); //selectedPet.id);
     setLoading(false);
   };
 
