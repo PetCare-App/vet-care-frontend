@@ -171,10 +171,10 @@ export const CreateOwner = () => {
                   onChange={handleChange}
                   sx={{ width: '500px' }}
                 >
-                  <MenuItem value="single">Solteiro(a)</MenuItem>
-                  <MenuItem value="married">Casado(a)</MenuItem>
-                  <MenuItem value="divorced">Divorciado(a)</MenuItem>
-                  <MenuItem value="widowed">Viúvo(a)</MenuItem>
+                  <MenuItem value="Solteiro">Solteiro(a)</MenuItem>
+                  <MenuItem value="Casado">Casado(a)</MenuItem>
+                  <MenuItem value="Divorciado">Divorciado(a)</MenuItem>
+                  <MenuItem value="Viúvo">Viúvo(a)</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

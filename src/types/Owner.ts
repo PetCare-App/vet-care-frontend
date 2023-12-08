@@ -1,15 +1,15 @@
 export interface Owner {
   id?: number;
-  name: string;
-  address: string;
-  phoneNumber: string;
-  email: string;
-  dateOfBirth?: string;
-  gender: string;
-  maritalStatus: string;
-  occupation: string;
+  name: string; //
+  address: string; //
+  phoneNumber: string; //
+  email: string; //
+  dateOfBirth?: string; //
+  gender: string; //
+  maritalStatus: string; //
+  occupation: string; //
   photoUrl?: string | null;
-  preferredPaymentMethod?: string;
+  preferredPaymentMethod?: string; //
   petInsuranceDetails?: string;
   additionalNotes?: string;
   registrationDate: string | Date;
@@ -18,21 +18,21 @@ export interface Owner {
 }
 
 export const ownerInit: Owner = {
-  // id: 1,
-  name: 'Teste 123',
-  address: 'Rua Duque de Caxias',
-  phoneNumber: '(51) 994051771',
-  email: 'teste@gmail.com',
-  dateOfBirth: '1979-06-22T00:00:00.000Z',
-  gender: 'male',
-  maritalStatus: 'married',
-  occupation: 'Professor de Inglês',
+  id: 1,
+  name: '',
+  address: '',
+  phoneNumber: '',
+  email: '',
+  dateOfBirth: '',
+  gender: '',
+  maritalStatus: '',
+  occupation: '',
   photoUrl:
     'https://upload.wikimedia.org/wikipedia/commons/6/68/Solid_black.png',
-  preferredPaymentMethod: 'pix',
-  petInsuranceDetails: 'não possui',
-  additionalNotes: 'teste',
-  registrationDate: '2023-10-11T23:40:06.487Z',
+  preferredPaymentMethod: '',
+  petInsuranceDetails: '',
+  additionalNotes: '',
+  registrationDate: '',
   password: 'senha123',
   patients: [
     // {

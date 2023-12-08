@@ -149,8 +149,14 @@ export function ProviderContext({ children }: any) {
   //PETS
 
   const createPet = async (data: Pet) => {
+    console.log('data', data);
     try {
       delete data.id;
+      delete data.owner;
+      delete data.patientMedicalRecord;
+      delete data.vaccines;
+      delete data.parasiteControl;
+      delete data.hygiene;
       const response: AxiosResponse = await petService.create(data);
 
       if (response.status == 201) {

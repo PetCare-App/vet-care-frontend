@@ -40,18 +40,28 @@ const StyledCard = styled(Card)({
   },
 
   '&:hover:after': {
-    backgroundImage: 'url("https://blog.unyleya.edu.br/wp-content/uploads/2019/10/GettyImages-885571364-1.jpg")',
+    backgroundImage:
+      'url("https://blog.unyleya.edu.br/wp-content/uploads/2019/10/GettyImages-885571364-1.jpg")',
     backgroundSize: 'cover',
   },
 
   '&.pet:hover:after': {
-    backgroundImage: 'url("https://es360.com.br/wp-content/uploads/2022/06/happy-girl-in-grey-hoodie-plays-with-corgi-on-pink-background-dog-licks-cheeck-of-happy-woman-lady-in-great-mood-holds-domestic-pet-on-isolated-1024x683.jpg")',
+    backgroundImage:
+      'url("https://es360.com.br/wp-content/uploads/2022/06/happy-girl-in-grey-hoodie-plays-with-corgi-on-pink-background-dog-licks-cheeck-of-happy-woman-lady-in-great-mood-holds-domestic-pet-on-isolated-1024x683.jpg")',
     backgroundSize: 'cover',
     backgroundPosition: 'bottom',
   },
 });
 
-const S_Card = ({ title, redirect, cardType }: { title: string; redirect: string; cardType: string }) => {
+const S_Card = ({
+  title,
+  redirect,
+  cardType,
+}: {
+  title: string;
+  redirect: string;
+  cardType: string;
+}) => {
   return (
     <Link underline="hover" color="inherit" href={redirect}>
       <StyledCard variant="outlined" className={cardType}>
@@ -78,26 +88,35 @@ export const Home = () => {
         backgroundImage: 'url("src/assets/dog-home.png")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        backgroundPosition: 'bottom'
+        backgroundPosition: 'bottom',
       }}
     >
       <Typography variant="h3" component="h1" color="#000" marginBottom="4rem">
-        Escolha o tipo de Usuário
+        Escolha o tipo de usuário
       </Typography>
       <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
-        sx={{
-        }}
+        sx={{}}
         gap={12}
       >
         <S_Card title={'Veterinários'} redirect={'/vet-login'} cardType="vet" />
-        <S_Card title={'Tutores'} redirect={'https://petcare-online.web.app/login'} cardType="pet" />
-        <Typography variant="h6" component="h6" color="#000" width="100%" textAlign="center">
-        Escolha o seu tipo de usuário para ser redirecionado para a página.
-      </Typography>
+        <S_Card
+          title={'Tutores'}
+          redirect={'https://petcare-online.web.app/login'}
+          cardType="pet"
+        />
+        <Typography
+          variant="h6"
+          component="h6"
+          color="#000"
+          width="100%"
+          textAlign="center"
+        >
+          Escolha o seu tipo de usuário para ser redirecionado para a página.
+        </Typography>
       </Grid>
     </Grid>
   );

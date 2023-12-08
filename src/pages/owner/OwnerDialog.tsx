@@ -23,7 +23,6 @@ import { dateFormatter } from '../../utils/dateFormatter';
 import { Owner } from '../../types/Owner';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SnackbarComponent from '../../components/Snackbar';
-import { maritalStatus } from '../../utils/normalizers';
 
 const EditForm = ({
   setCurrentOwner,
@@ -86,10 +85,10 @@ const EditForm = ({
               onChange={handleChange}
               sx={{ width: '400px' }}
             >
-              <MenuItem value="single">Solteiro(a)</MenuItem>
-              <MenuItem value="married">Casado(a)</MenuItem>
-              <MenuItem value="divorced">Divorciado(a)</MenuItem>
-              <MenuItem value="widowed">Viúvo(a)</MenuItem>
+              <MenuItem value="Solteiro">Solteiro(a)</MenuItem>
+              <MenuItem value="Casado">Casado(a)</MenuItem>
+              <MenuItem value="Divorciado">Divorciado(a)</MenuItem>
+              <MenuItem value="Viúvo">Viúvo(a)</MenuItem>
             </Select>
           </FormControl>
           <TextField
@@ -173,7 +172,7 @@ const OwnerData = ({ selectedOwner }: { selectedOwner: Owner }) => {
           <InfoItem
             variant="h6"
             label={'Estado Civil'}
-            data={maritalStatus[selectedOwner.maritalStatus]}
+            data={selectedOwner.maritalStatus}
           />
         </Grid>
         <Grid display="grid" gridTemplateColumns={'1fr 1fr'}>
